@@ -7,14 +7,15 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<fx:root prefHeight="936.0" prefWidth="1664.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUIs.preclient.loginController">
+<AnchorPane prefHeight="936.0" prefWidth="1664.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUIs.preclient.loginController">
    <children>
       <ImageView fx:id="bigImageOnSideOfWindow" fitHeight="936.0" fitWidth="833.0" layoutX="350.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="832.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <TextField fx:id="usernameTextField" layoutX="128.0" layoutY="325.0" prefHeight="40.0" prefWidth="200.0" promptText="Username" AnchorPane.bottomAnchor="571.0" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="325.0" />
       <PasswordField fx:id="passwordField" layoutX="132.0" layoutY="405.0" prefHeight="40.0" prefWidth="200.0" promptText="Password" AnchorPane.bottomAnchor="496.0" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="400.0" />
       <Button fx:id="loginButton" layoutX="204.0" layoutY="468.0" mnemonicParsing="false" text="LOG IN" AnchorPane.leftAnchor="204.0" AnchorPane.topAnchor="470.0" />
-      <Button fx:id="registerButton" layoutX="169.0" layoutY="579.0" mnemonicParsing="false" text="Create an account!" />
+      <Button fx:id="registerButton" layoutX="169.0" layoutY="579.0" mnemonicParsing="false" onAction="#registerUser" text="Create an account!" />
       <Label fx:id="newPlayerLabel" layoutX="194.0" layoutY="561.0" text="New player?" />
       <ImageView fx:id="smallImageAboveText" fitHeight="200.0" fitWidth="200.0" layoutX="130.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="193.0" layoutY="502.0" text="Invalid login!" />
    </children>
-</fx:root>
+</AnchorPane>

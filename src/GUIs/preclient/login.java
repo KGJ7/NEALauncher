@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class login extends Application {
 
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("loginFXML.fxml"));
+        Parent root = (Parent) FXMLLoader.load(getClass().getResource("loginFXML.fxml"));
         Scene scene =  new Scene(root, 1664, 936);
 //        scene.getStylesheets().add(getClass().getResource("/Stylesheets/Login.css").toExternalForm());
         primaryStage.setScene(scene);

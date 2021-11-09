@@ -31,13 +31,13 @@ public class loginController {
     @FXML
     private Label newPlayerLabel;
 
-    public void registerUser(){
+    public void registerUser() {
         try {
-            Stage old = (Stage)registerButton.getScene().getWindow();
+            Stage old = (Stage) registerButton.getScene().getWindow();
             Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader();
-            Parent root = loader.load(getClass().getResource("/Register/RegisterFXML.fxml").openStream());
-            Scene scene = new Scene(root, 1664 , 936);
+            Parent root = loader.load(getClass().getResource("RegisterFXML.fxml").openStream());
+            Scene scene = new Scene(root, 1664, 936);
             scene.getStylesheets().add(getClass().getResource("/Stylesheets/Register.css").toExternalForm());
             stage.setScene(scene);
             stage.setTitle("Register a new account!");
@@ -49,5 +49,16 @@ public class loginController {
         }
     }
 }
+//
+//    }
+//    @FXML
+//    public void login(){
+//        try{
+//            if (this.loginModel.)
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//}
 
 
