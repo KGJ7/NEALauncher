@@ -46,7 +46,7 @@
       </Button>
       <Label layoutX="679.0" layoutY="188.0" text="Invalid email address!" textFill="RED" />
       <Label layoutX="679.0" layoutY="253.0" text="Username taken!" textFill="RED" />
-      <Button fx:id="loginScreenReturnButton" layoutX="14.0" layoutY="897.0" mnemonicParsing="false" text="Return to login screen" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+      <Button fx:id="loginScreenReturnButton" layoutX="14.0" layoutY="897.0" mnemonicParsing="false" onAction="#returnToLogin" text="Return to login screen" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
       <Label layoutX="679.0" layoutY="383.0" text="Passwords don't match!" textFill="RED" />
       <Label layoutX="679.0" layoutY="318.0" text="Password does not meet security requirements!" textFill="RED" />
       <Label layoutX="688.0" layoutY="468.0" text="Remember to never share your account details with people." AnchorPane.leftAnchor="688.0" AnchorPane.rightAnchor="687.0" AnchorPane.topAnchor="475.0">

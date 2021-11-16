@@ -48,17 +48,25 @@ public class loginController {
             e.printStackTrace();
         }
     }
+
+    public void loginUser(){
+        try{
+            Stage old = (Stage) loginButton.getScene().getWindow();
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            Parent root = loader.load(getClass().getResource("/GUIs/news/newsFXML.fxml").openStream());
+            Scene scene = new Scene(root, 1664, 936);
+            scene.getStylesheets().add(getClass().getResource("/Stylesheets/News.css").toExternalForm());
+            stage.setScene(scene);
+            stage.setTitle("Client");
+            stage.setResizable(false);
+            old.close();
+            stage.show();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 }
-//
-//    }
-//    @FXML
-//    public void login(){
-//        try{
-//            if (this.loginModel.)
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//}
+
 
 

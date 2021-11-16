@@ -7,60 +7,59 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="936.0" prefWidth="1664.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUIs.news.newsController">
    <children>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="255.0" text="CREATE LOBBY" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Button fx:id="createLobbyButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="255.0" text="CREATE LOBBY" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <font>
             <Font size="22.0" />
          </font>
       </Button>
-      <Button layoutY="60.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Statistics" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="100.0">
+      <Button fx:id="openStatisticsTabButton" layoutY="60.0" mnemonicParsing="false" onAction="#openStatisticsTab" prefHeight="60.0" prefWidth="200.0" text="Statistics" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="100.0">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Button layoutX="200.0" layoutY="100.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Loot" AnchorPane.leftAnchor="200.0">
+      <Button fx:id="openLootTabButton" layoutX="200.0" layoutY="100.0" mnemonicParsing="false" onAction="#openLootTab" prefHeight="60.0" prefWidth="200.0" text="Loot" AnchorPane.leftAnchor="200.0">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Button layoutX="400.0" layoutY="100.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Store" AnchorPane.leftAnchor="400.0">
+      <Button fx:id="openStoreTabButton" layoutX="400.0" layoutY="100.0" mnemonicParsing="false" onAction="#openStoreTab" prefHeight="60.0" prefWidth="200.0" text="Store" AnchorPane.leftAnchor="400.0">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Button layoutX="600.0" layoutY="100.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Inventory" AnchorPane.leftAnchor="600.0">
+      <Button fx:id="openInventoryTabButton" layoutX="600.0" layoutY="100.0" mnemonicParsing="false" onAction="#openInventoryTab" prefHeight="60.0" prefWidth="200.0" text="Inventory" AnchorPane.leftAnchor="600.0">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Button layoutX="800.0" layoutY="100.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="News" AnchorPane.leftAnchor="800.0">
+      <Button fx:id="openNewsTabButton" layoutX="800.0" layoutY="100.0" mnemonicParsing="false" onAction="#openNewsTab" prefHeight="60.0" prefWidth="200.0" text="News" AnchorPane.leftAnchor="800.0">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Label layoutX="1636.0" layoutY="6.0" prefHeight="60.0" prefWidth="200.0" text="Level:" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Label fx:id="displayUserLevelLabel" layoutX="1636.0" layoutY="6.0" prefHeight="60.0" prefWidth="200.0" text="Level:" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <font>
             <Font size="40.0" />
          </font>
       </Label>
-      <Label layoutX="1264.0" prefHeight="60.0" prefWidth="200.0" text="MP:" AnchorPane.leftAnchor="1264.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
+      <Label fx:id="displayCurrencyLabel" layoutX="1264.0" prefHeight="60.0" prefWidth="200.0" text="MP:" AnchorPane.leftAnchor="1264.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
          <font>
             <Font size="40.0" />
          </font>
       </Label>
-      <Button layoutX="1464.0" layoutY="100.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="QNA" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+      <Button fx:id="openQnaTabButton" layoutX="1464.0" layoutY="100.0" mnemonicParsing="false" onAction="#openQNATab" prefHeight="60.0" prefWidth="200.0" text="QNA" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Label layoutX="1264.0" layoutY="160.0" prefHeight="51.0" prefWidth="200.0" text="Friends List" AnchorPane.leftAnchor="1264.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="160.0">
+      <Label fx:id="friendsListLabel" layoutX="1264.0" layoutY="160.0" prefHeight="51.0" prefWidth="200.0" text="Friends List" AnchorPane.leftAnchor="1264.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="160.0">
          <font>
             <Font size="35.0" />
          </font>
       </Label>
-      <Button layoutY="910.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Open news article" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
+      <Button fx:id="openNewsArticleButton" layoutY="910.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Open news article" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
          <font>
             <Font size="21.0" />
          </font>
@@ -69,6 +68,6 @@
       <Separator layoutX="9.0" layoutY="160.0" orientation="VERTICAL" prefHeight="806.0" prefWidth="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="160.0" />
       <Separator layoutY="157.0" prefHeight="4.0" prefWidth="1258.0" AnchorPane.leftAnchor="0.0" />
       <Separator layoutX="5.0" layoutY="931.0" prefHeight="4.0" prefWidth="1258.0" AnchorPane.bottomAnchor="0.0" />
-      <ScrollPane layoutX="1254.0" layoutY="211.0" prefHeight="697.0" prefWidth="400.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="1264.0" AnchorPane.rightAnchor="0.0" />
+      <ScrollPane fx:id="friendsListScrollPane" layoutX="1254.0" layoutY="211.0" prefHeight="697.0" prefWidth="400.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="1264.0" AnchorPane.rightAnchor="0.0" />
    </children>
 </AnchorPane>

@@ -1,17 +1,15 @@
-package GUIs.news;
+package GUIs.statistics;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class newsController {
+public class statisticsController {
     @FXML
     private Button createLobbyButton;
     @FXML
@@ -25,8 +23,6 @@ public class newsController {
     @FXML
     private Button openNewsTabButton;
     @FXML
-    private Button openNewsArticleButton;
-    @FXML
     private Button openQnaTabButton;
     @FXML
     private Label displayCurrencyLabel;
@@ -36,6 +32,12 @@ public class newsController {
     private Label friendsListLabel;
     @FXML
     private ScrollPane friendsListScrollPane;
+    @FXML
+    private ComboBox timePeriodComboBox;
+    @FXML
+    private ComboBox statisticTypeComboBox;
+    @FXML
+    private TextField championSearchTextField;
 
     public void openNewsTab(){
         try{

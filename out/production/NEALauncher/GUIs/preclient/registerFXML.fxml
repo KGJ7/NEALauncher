@@ -14,39 +14,45 @@
             <Font size="31.0" />
          </font>
       </Label>
-      <TextField layoutX="675.0" layoutY="271.0" prefHeight="48.0" prefWidth="307.0" promptText="Username" AnchorPane.leftAnchor="679.0" AnchorPane.rightAnchor="678.0" AnchorPane.topAnchor="270.0">
+      <TextField fx:id="usernameTextField" layoutX="675.0" layoutY="271.0" prefHeight="48.0" prefWidth="307.0" promptText="Username" AnchorPane.leftAnchor="679.0" AnchorPane.rightAnchor="678.0" AnchorPane.topAnchor="270.0">
          <font>
             <Font size="22.0" />
          </font>
       </TextField>
-      <PasswordField layoutX="675.0" layoutY="333.0" prefHeight="48.0" prefWidth="307.0" promptText="Password (case sensitive!)" AnchorPane.leftAnchor="679.0" AnchorPane.rightAnchor="678.0" AnchorPane.topAnchor="335.0">
+      <PasswordField fx:id="passwordEntryField" layoutX="675.0" layoutY="333.0" prefHeight="48.0" prefWidth="307.0" promptText="Password (case sensitive!)" AnchorPane.leftAnchor="679.0" AnchorPane.rightAnchor="678.0" AnchorPane.topAnchor="335.0">
          <font>
             <Font size="22.0" />
          </font>
       </PasswordField>
-      <TextField layoutX="675.0" layoutY="210.0" prefHeight="48.0" prefWidth="307.0" promptText="Email address" AnchorPane.leftAnchor="679.0" AnchorPane.rightAnchor="678.0" AnchorPane.topAnchor="205.0">
+      <TextField fx:id="emailTextField" layoutX="675.0" layoutY="210.0" prefHeight="48.0" prefWidth="307.0" promptText="Email address" AnchorPane.leftAnchor="679.0" AnchorPane.rightAnchor="678.0" AnchorPane.topAnchor="205.0">
          <font>
             <Font size="22.0" />
          </font>
       </TextField>
-      <PasswordField layoutX="675.0" layoutY="398.0" prefHeight="48.0" prefWidth="307.0" promptText="Re-enter password" AnchorPane.leftAnchor="679.0" AnchorPane.rightAnchor="678.0" AnchorPane.topAnchor="400.0">
+      <PasswordField fx:id="reenterPasswordField" layoutX="675.0" layoutY="398.0" prefHeight="48.0" prefWidth="307.0" promptText="Re-enter password" AnchorPane.leftAnchor="679.0" AnchorPane.rightAnchor="678.0" AnchorPane.topAnchor="400.0">
          <font>
             <Font size="22.0" />
          </font>
       </PasswordField>
-      <Label layoutX="688.0" layoutY="460.0" text="Remember to never share your account details with people." AnchorPane.leftAnchor="688.0" AnchorPane.rightAnchor="687.0" AnchorPane.topAnchor="460.0">
+      <Label layoutX="679.0" layoutY="460.0" prefHeight="16.0" prefWidth="307.0" text="Passwords must be at least 8 characters with at least 1 number." AnchorPane.leftAnchor="679.0" AnchorPane.rightAnchor="678.0" AnchorPane.topAnchor="460.0">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Button layoutX="712.0" layoutY="614.0" mnemonicParsing="false" text="Create account!" AnchorPane.bottomAnchor="259.0" AnchorPane.leftAnchor="712.0" AnchorPane.rightAnchor="711.0">
+      <Button fx:id="createAccountButton" layoutX="712.0" layoutY="614.0" mnemonicParsing="false" text="Create account!" AnchorPane.bottomAnchor="259.0" AnchorPane.leftAnchor="712.0" AnchorPane.rightAnchor="711.0">
          <font>
             <Font size="29.0" />
          </font>
       </Button>
       <Label layoutX="679.0" layoutY="188.0" text="Invalid email address!" textFill="RED" />
       <Label layoutX="679.0" layoutY="253.0" text="Username taken!" textFill="RED" />
-      <Button layoutX="14.0" layoutY="897.0" mnemonicParsing="false" text="Return to login screen" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+      <Button fx:id="loginScreenReturnButton" layoutX="14.0" layoutY="897.0" mnemonicParsing="false" onAction="#returnToLogin" text="Return to login screen" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
       <Label layoutX="679.0" layoutY="383.0" text="Passwords don't match!" textFill="RED" />
+      <Label layoutX="679.0" layoutY="318.0" text="Password does not meet security requirements!" textFill="RED" />
+      <Label layoutX="688.0" layoutY="468.0" text="Remember to never share your account details with people." AnchorPane.leftAnchor="688.0" AnchorPane.rightAnchor="687.0" AnchorPane.topAnchor="475.0">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
