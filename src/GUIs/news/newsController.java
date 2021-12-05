@@ -1,15 +1,20 @@
 package GUIs.news;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class newsController {
     @FXML
@@ -25,7 +30,7 @@ public class newsController {
     @FXML
     private Button openNewsTabButton;
     @FXML
-    private Button openNewsArticleButton;
+    private Hyperlink openNewsArticleButton;
     @FXML
     private Button openQnaTabButton;
     @FXML
@@ -36,7 +41,11 @@ public class newsController {
     private Label friendsListLabel;
     @FXML
     private ScrollPane friendsListScrollPane;
-
+    @FXML
+    public void openNewsLink(ActionEvent event) throws URISyntaxException, IOException{
+        System.out.println("Link clicked nice");
+        Desktop.getDesktop().browse(new URI("https://www.youtube.com/watch?v=dx76YPgZviE&t=90s"));
+    }
     public void openNewsTab(){
         try{
             Stage old = (Stage) openNewsTabButton.getScene().getWindow();
@@ -139,4 +148,5 @@ public class newsController {
             e.printStackTrace();
         }
     }
+
 }
