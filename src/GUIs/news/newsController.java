@@ -148,5 +148,22 @@ public class newsController {
             e.printStackTrace();
         }
     }
+    public void openCreateLobbyTab(){
+        try{
+            Stage old = (Stage) createLobbyButton.getScene().getWindow();
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            Parent root = loader.load(getClass().getResource("/GUIs/lobby/createLobbyFXML.fxml").openStream());
+            Scene scene = new Scene(root, 1664, 936);
+            scene.getStylesheets().add(getClass().getResource("/Stylesheets/Lobby.css").toExternalForm());
+            stage.setScene(scene);
+            stage.setTitle("Client");
+            stage.setResizable(false);
+            old.close();
+            stage.show();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 
 }

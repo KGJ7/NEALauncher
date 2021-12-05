@@ -1,15 +1,15 @@
-package GUIs.shop;
+package GUIs.lobby;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class shopController {
+public class createLobbyController {
     @FXML
     private Button createLobbyButton;
     @FXML
@@ -24,21 +24,6 @@ public class shopController {
     private Button openNewsTabButton;
     @FXML
     private Button openQnaTabButton;
-    @FXML
-    private Label displayCurrencyLabel;
-    @FXML
-    private Label displayUserLevelLabel;
-    @FXML
-    private Label friendsListLabel;
-    @FXML
-    private ScrollPane friendsListScrollPane;
-    @FXML
-    private ComboBox championClassComboBox;
-    @FXML
-    private TextField championSearchTextField;
-    @FXML
-    private CheckBox showOwnedCheckBox;
-
     public void openNewsTab(){
         try{
             Stage old = (Stage) openNewsTabButton.getScene().getWindow();
@@ -132,23 +117,6 @@ public class shopController {
             Parent root = loader.load(getClass().getResource("/GUIs/qna/qnaFXML.fxml").openStream());
             Scene scene = new Scene(root, 1664, 936);
             scene.getStylesheets().add(getClass().getResource("/Stylesheets/News.css").toExternalForm());
-            stage.setScene(scene);
-            stage.setTitle("Client");
-            stage.setResizable(false);
-            old.close();
-            stage.show();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-    public void openCreateLobbyTab(){
-        try{
-            Stage old = (Stage) createLobbyButton.getScene().getWindow();
-            Stage stage = new Stage();
-            FXMLLoader loader = new FXMLLoader();
-            Parent root = loader.load(getClass().getResource("/GUIs/lobby/createLobbyFXML.fxml").openStream());
-            Scene scene = new Scene(root, 1664, 936);
-            scene.getStylesheets().add(getClass().getResource("/Stylesheets/Lobby.css").toExternalForm());
             stage.setScene(scene);
             stage.setTitle("Client");
             stage.setResizable(false);
