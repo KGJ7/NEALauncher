@@ -9,12 +9,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.fxml.Initializable;
 
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 public class newsController {
     @FXML
@@ -36,16 +40,32 @@ public class newsController {
     @FXML
     private Label displayCurrencyLabel;
     @FXML
+    private Label frontPageHeadlineLabel;
+    @FXML
     private Label displayUserLevelLabel;
     @FXML
     private Label friendsListLabel;
     @FXML
+    private Label newsWallpaperLabel;
+    @FXML
     private ScrollPane friendsListScrollPane;
     @FXML
-    public void openNewsLink(ActionEvent event) throws URISyntaxException, IOException{
+    private ImageView newsWallpaperIV;
+
+    public void initialise(){
+        Image image = new Image("/Images/newsWallpaper.jpg");
+        newsWallpaperIV = new ImageView(image);
+        newsWallpaperIV.setFitHeight(776);
+        newsWallpaperIV.setFitWidth(1258);
+        newsWallpaperIV.setPreserveRatio(true);
+        newsWallpaperLabel.setGraphic(newsWallpaperIV);
+    }
+    @FXML
+    public void openNewsLink(ActionEvent event) throws URISyntaxException, IOException {
         System.out.println("Link clicked nice");
         Desktop.getDesktop().browse(new URI("https://www.youtube.com/watch?v=dx76YPgZviE&t=90s"));
     }
+
     public void openNewsTab(){
         try{
             Stage old = (Stage) openNewsTabButton.getScene().getWindow();

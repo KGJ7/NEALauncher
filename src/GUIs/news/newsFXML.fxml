@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -65,10 +67,16 @@
       <Separator layoutY="157.0" prefHeight="4.0" prefWidth="1258.0" AnchorPane.leftAnchor="0.0" />
       <Separator layoutX="5.0" layoutY="931.0" prefHeight="4.0" prefWidth="1258.0" AnchorPane.bottomAnchor="0.0" />
       <ScrollPane fx:id="friendsListScrollPane" layoutX="1254.0" layoutY="211.0" prefHeight="697.0" prefWidth="400.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="1264.0" AnchorPane.rightAnchor="0.0" />
-      <Hyperlink fx:id="openNewsArticleButton" layoutX="14.0" layoutY="895.0" onAction="#openNewsLink" prefHeight="60.0" prefWidth="200.0" text="Open news article" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
+      <Hyperlink fx:id="openNewsArticleButton" layoutX="14.0" layoutY="895.0" onAction="#openNewsLink" prefHeight="60.0" prefWidth="200.0" text="Open news article" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
          <font>
             <Font size="23.0" />
          </font>
       </Hyperlink>
+      <Label fx:id="newsWallpaperLabel" layoutX="0.0" prefHeight="400.0" prefWidth="400.0" AnchorPane.leftAnchor="0.0" />
+      <Label fx:id="frontPageHeadlineLabel" layoutX="65.0" layoutY="367.0" text="I don't have a front page for this so here's a picture of Zyzz!" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="470.0">
+         <font>
+            <Font size="43.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

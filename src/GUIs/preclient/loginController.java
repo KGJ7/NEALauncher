@@ -31,6 +31,7 @@ public class loginController {
     @FXML
     private Label newPlayerLabel;
 
+
     public void registerUser() {
         try {
             Stage old = (Stage) registerButton.getScene().getWindow();
