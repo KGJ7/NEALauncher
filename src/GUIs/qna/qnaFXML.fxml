@@ -9,6 +9,7 @@
 
 <AnchorPane prefHeight="936.0" prefWidth="1664.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUIs.qna.qnaController">
    <children>
+      <Label fx:id="backgroundLabel" layoutX="102.0" layoutY="756.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <ComboBox fx:id="QNATypeComboBox" layoutY="45.0" prefHeight="25.0" prefWidth="150.0" promptText="QNA type?" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="45.0" />
       <Label fx:id="QNAHeaderLabel" layoutX="751.0" layoutY="-7.0" prefHeight="45.0" prefWidth="170.0" text="QNA section" AnchorPane.topAnchor="0.0">
          <font>

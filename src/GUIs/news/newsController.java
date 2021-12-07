@@ -52,7 +52,8 @@ public class newsController {
     @FXML
     private ImageView newsWallpaperIV;
 
-    public void initialise(){
+
+    public void initialize(){
         Image image = new Image("/Images/newsWallpaper.jpg");
         newsWallpaperIV = new ImageView(image);
         newsWallpaperIV.setFitHeight(776);
@@ -90,7 +91,7 @@ public class newsController {
             FXMLLoader loader = new FXMLLoader();
             Parent root = loader.load(getClass().getResource("/GUIs/loot/lootFXML.fxml").openStream());
             Scene scene = new Scene(root, 1664, 936);
-            scene.getStylesheets().add(getClass().getResource("/Stylesheets/News.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/Stylesheets/Loot.css").toExternalForm());
             stage.setScene(scene);
             stage.setTitle("Client");
             stage.setResizable(false);
@@ -107,7 +108,7 @@ public class newsController {
             FXMLLoader loader = new FXMLLoader();
             Parent root = loader.load(getClass().getResource("/GUIs/inventory/inventoryFXML.fxml").openStream());
             Scene scene = new Scene(root, 1664, 936);
-            scene.getStylesheets().add(getClass().getResource("/Stylesheets/News.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/Stylesheets/Inventory.css").toExternalForm());
             stage.setScene(scene);
             stage.setTitle("Client");
             stage.setResizable(false);
@@ -124,7 +125,7 @@ public class newsController {
             FXMLLoader loader = new FXMLLoader();
             Parent root = loader.load(getClass().getResource("/GUIs/shop/shopFXML.fxml").openStream());
             Scene scene = new Scene(root, 1664, 936);
-            scene.getStylesheets().add(getClass().getResource("/Stylesheets/News.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/Stylesheets/Store.css").toExternalForm());
             stage.setScene(scene);
             stage.setTitle("Client");
             stage.setResizable(false);
@@ -141,7 +142,7 @@ public class newsController {
             FXMLLoader loader = new FXMLLoader();
             Parent root = loader.load(getClass().getResource("/GUIs/statistics/statisticsFXML.fxml").openStream());
             Scene scene = new Scene(root, 1664, 936);
-            scene.getStylesheets().add(getClass().getResource("/Stylesheets/News.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/Stylesheets/Statistics.css").toExternalForm());
             stage.setScene(scene);
             stage.setTitle("Client");
             stage.setResizable(false);
@@ -158,7 +159,7 @@ public class newsController {
             FXMLLoader loader = new FXMLLoader();
             Parent root = loader.load(getClass().getResource("/GUIs/qna/qnaFXML.fxml").openStream());
             Scene scene = new Scene(root, 1664, 936);
-            scene.getStylesheets().add(getClass().getResource("/Stylesheets/News.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/Stylesheets/QNA.css").toExternalForm());
             stage.setScene(scene);
             stage.setTitle("Client");
             stage.setResizable(false);

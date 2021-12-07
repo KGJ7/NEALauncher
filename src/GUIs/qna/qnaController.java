@@ -19,6 +19,8 @@ public class qnaController {
     @FXML
     private Label submittingSideNoteLabel;
     @FXML
+    private Label backgroundLabel;
+    @FXML
     private ComboBox QNATypeComboBox;
     @FXML
     private Button submitButton;
