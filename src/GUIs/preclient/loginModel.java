@@ -6,7 +6,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class loginModel {
+
     Connection connection;
+
     public loginModel(){
         try{
             this.connection = DBConnection.getConnection();
