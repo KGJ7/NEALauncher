@@ -4,6 +4,7 @@ import DatabaseTools.DBConnection;
 import com.sun.xml.internal.ws.api.message.Message;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,14 +13,20 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import javax.xml.transform.Result;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class registerController {
+public class registerController{
     @FXML
     private TextField emailTextField;
     @FXML
@@ -35,19 +42,15 @@ public class registerController {
     @FXML
     private Label registerYourAccount;
     @FXML
-    private Label invalidEmailLabel;
-    @FXML
-    private Label invalidUsernameLabel;
-    @FXML
-    private Label passwordSecurityReqNotMet;
-    @FXML
-    private Label passwordsDoesntMatchLabel;
-    @FXML
     private Label passwordReqLabel;
     @FXML
     private Label neverSharePasswordLabel;
     @FXML
-    private Label emptyFieldErrorLabel;
+    private Label errorLabel;
+
+    public void initialize(){
+        errorLabel.setText("");
+    }
 
     public void returnToLogin() {
         try {
@@ -68,33 +71,55 @@ public class registerController {
     }
 
     public boolean checkPasswordMatch() {
-        if (passwordEntryField.getText().equals(reenterPasswordField.getText())) {
-            return true;
-        } else {
-            return false;
-        }
+        System.out.println(passwordEntryField.getText());
+        System.out.println(reenterPasswordField.getText());
+        return passwordEntryField.getText().equals(reenterPasswordField.getText());
     }
 
-    public boolean checkEmptyFields(){
+    public boolean checkEmptyFields() {
         if (!emailTextField.getText().isEmpty()
-            && !usernameTextField.getText().isEmpty()
-            && !passwordEntryField.getText().isEmpty()
-            && !reenterPasswordField.getText().isEmpty())
+                && !usernameTextField.getText().isEmpty()
+                && !passwordEntryField.getText().isEmpty()
+                && !reenterPasswordField.getText().isEmpty())
             return true;
         else return false;
     }
-    public boolean checkEmailValidity(){
-    return true;
+
+    public boolean checkEmailValidity() {
+        String regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(emailTextField.getText());
+
+        System.out.println(matcher.matches());
+        if (!matcher.matches()) {
+            errorLabel.setText("Invalid email address.");
+        } else {
+            errorLabel.setText("");
+        }
+        return matcher.matches();
     }
 
-    public boolean checkPasswordValidity(){
-    return true;
+    public boolean passwordContainsDigit() {
+        boolean containsDigit = false;
+        for (char c : passwordEntryField.getText().toCharArray()) {
+            if(Character.isDigit(c)){
+                containsDigit = true;
+            }
+        } return containsDigit;
     }
 
-    public boolean checkUserAvailability(){
-        return true;
+    public boolean checkPasswordValidity() {
+            checkPasswordLength();
+            passwordContainsDigit();
+        if (checkPasswordLength() && passwordContainsDigit()){
+            return true;
+        } else return false;
     }
-
+    public boolean checkPasswordLength(){
+        if (passwordEntryField.getText().length()>7){
+            return true;
+        } else return false;
+    }
     public String hashPassword(){
         try{
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -130,6 +155,47 @@ public class registerController {
             return false;
         }
     }
+    public boolean checkForExistingUser() throws SQLException{
+//        PreparedStatement ps = null;
+//        ResultSet rs = null;
+//        String sql = "SELECT * FROM UserClientData WHERE DisplayName = ?";
+//
+//        try{
+//            Connection con = DBConnection.getConnection();
+//            assert con != null;
+//            ps = con.prepareStatement(sql);
+//            ps.setString(1, usernameTextField.getText());
+//
+//            rs = ps.executeQuery();
+//                if (rs.next()){
+//                    return true;
+//                } else return false;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            return false;
+//        } finally {
+//            assert ps != null;
+//            ps.close();
+//            assert rs != null;
+//            rs.close();
+//        }
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM UserClientData where DisplayName = ?";
+        try{
+            Connection con = DBConnection.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1,usernameTextField.getText());
+            rs = ps.executeQuery();
+             return (!rs.next());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            ps.close();
+            rs.close();
+        }
+    }
 
     @FXML
     public void createAccount() throws SQLException {
@@ -137,16 +203,16 @@ public class registerController {
             if(checkEmptyFields()){
                 if (checkEmailValidity()){
                     if(checkPasswordValidity()){
-                        if(checkUserAvailability()){
-                            if(checkPasswordMatch()){
-                                if(createNewUser(usernameTextField.getText())){
-
-                                }
-                            }else passwordsDoesntMatchLabel.setVisible(true);
-                        }else invalidUsernameLabel.setVisible(true);
-                    }else passwordSecurityReqNotMet.setVisible(true);
-                }else invalidEmailLabel.setVisible(true);
-            } else emptyFieldErrorLabel.setVisible(true);
+                        if(checkPasswordMatch()){
+                            if(checkForExistingUser()){
+                                if(createNewUser(usernameTextField.getText())) {
+                                    System.out.println("user created yay");
+                                    }
+                            }else errorLabel.setText("Username already taken!");
+                        }else errorLabel.setText("Passwords don't match!");
+                    }else errorLabel.setText("Password does not meet security requirements!");
+                }else errorLabel.setText("Invalid email address!");
+            } else errorLabel.setText("Please fill in all fields!");
 
 
         } catch (Exception e) {
@@ -154,4 +220,6 @@ public class registerController {
         }
 
     }
+
+
 }

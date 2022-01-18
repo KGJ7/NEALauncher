@@ -14,6 +14,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class loginController {
@@ -88,19 +91,43 @@ public class loginController {
 
     public void loginUser(){
         try{
-            Stage old = (Stage) loginButton.getScene().getWindow();
-            Stage stage = new Stage();
-            FXMLLoader loader = new FXMLLoader();
-            Parent root = loader.load(getClass().getResource("/GUIs/news/newsFXML.fxml").openStream());
-            Scene scene = new Scene(root, 1664, 936);
-            scene.getStylesheets().add(getClass().getResource("/Stylesheets/Login.css").toExternalForm());
-            stage.setScene(scene);
-            stage.setTitle("Client");
-            stage.setResizable(false);
-            old.close();
-            stage.show();
-        } catch (IOException e){
+            if(usernameTextField.getText().isEmpty() || passwordField.getText().isEmpty()){
+               invalidLoginLabel.setText("Please fill in all fields.");
+            }
+            else if(isLogin(this.usernameTextField.getText(), this.passwordField.getText())) {
+                Stage old = (Stage) loginButton.getScene().getWindow();
+                Stage stage = new Stage();
+                FXMLLoader loader = new FXMLLoader();
+                Parent root = loader.load(getClass().getResource("/GUIs/news/newsFXML.fxml").openStream());
+                Scene scene = new Scene(root, 1664, 936);
+                scene.getStylesheets().add(getClass().getResource("/Stylesheets/Login.css").toExternalForm());
+                stage.setScene(scene);
+                stage.setTitle("Client");
+                stage.setResizable(false);
+                old.close();
+                stage.show();
+            }else invalidLoginLabel.setText("Invalid login!");
+            } catch (IOException | SQLException e){
             e.printStackTrace();
+        }
+    }
+    public boolean isLogin(String DisplayName, String UserPassword) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM UserClientData where Username = ? and Password = ?";
+        try{
+            ps = this.connection.prepareStatement(sql);
+            ps.setString(1,DisplayName);
+            ps.setString(2,UserPassword);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return true;
+            } return false;
+        } catch(SQLException e){
+            return false;
+        }finally {
+            ps.close();
+            rs.close();
         }
     }
 }

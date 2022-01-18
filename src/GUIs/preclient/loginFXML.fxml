@@ -7,7 +7,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="936.0" prefWidth="1664.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUIs.preclient.loginController">
+<AnchorPane prefHeight="936.0" prefWidth="1664.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUIs.preclient.loginController">
    <children>
       <Label fx:id="backgroundLabel" layoutX="102.0" layoutY="756.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <ImageView fx:id="bigImageOnSideOfWindow" fitHeight="936.0" fitWidth="1204.0" layoutX="465.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="464.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
@@ -16,7 +16,7 @@
       <Button fx:id="loginButton" layoutX="204.0" layoutY="468.0" mnemonicParsing="false" onAction="#loginUser" text="LOG IN" AnchorPane.leftAnchor="204.0" AnchorPane.topAnchor="470.0" />
       <Button fx:id="registerButton" layoutX="169.0" layoutY="579.0" mnemonicParsing="false" onAction="#registerUser" text="Create an account!" />
       <Label fx:id="newPlayerLabel" layoutX="194.0" layoutY="561.0" text="New player?" />
-      <Label fx:id="invalidLoginLabel" layoutX="229.0" layoutY="502.0" prefHeight="17.0" prefWidth="0.0" />
+      <Label fx:id="invalidLoginLabel" layoutX="132.0" layoutY="440.0" prefHeight="25.0" prefWidth="200.0" />
       <Label fx:id="confirmDBConLabel" layoutX="14.0" layoutY="905.0" />
       <Label fx:id="loginImageLabel" layoutX="1623.0" layoutY="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Label fx:id="logoLabel" layoutX="218.0" layoutY="308.0" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="60.0" />

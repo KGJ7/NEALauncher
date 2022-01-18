@@ -1,3 +1,6 @@
 #backgroundLabel{
     -fx-background-color: #19225A;
 }
+.label{
+    -fx-text-fill: white;
+}
