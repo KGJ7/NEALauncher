@@ -21,7 +21,7 @@ import java.sql.SQLException;
 
 public class loginController {
 
-    private final loginModel loginModel = new loginModel();
+    private final loginModel LoginModel = new loginModel();
     @FXML
     private ImageView smallImageAboveText;
     @FXML
@@ -49,10 +49,9 @@ public class loginController {
     @FXML
     private Label backgroundLabel;
 
-    Connection connection;
 
     public void initialize(){
-        if(this.loginModel.isConnected()){
+        if(this.LoginModel.isConnected()){
             confirmDBConLabel.setText("Database connection confirmed!");
         } else {
             confirmDBConLabel.setText("Database connection... not established? Hm...");
@@ -71,6 +70,7 @@ public class loginController {
         logoLabel.setGraphic(smallImageAboveText);
 
     }
+    @FXML
     public void registerUser() {
         try {
             Stage old = (Stage) registerButton.getScene().getWindow();
@@ -89,12 +89,13 @@ public class loginController {
         }
     }
 
+    @FXML
     public void loginUser(){
         try{
             if(usernameTextField.getText().isEmpty() || passwordField.getText().isEmpty()){
                invalidLoginLabel.setText("Please fill in all fields.");
             }
-            else if(isLogin(this.usernameTextField.getText(), this.passwordField.getText())) {
+            else if(LoginModel.isLogin(this.usernameTextField.getText(), this.passwordField.getText())) {
                 Stage old = (Stage) loginButton.getScene().getWindow();
                 Stage stage = new Stage();
                 FXMLLoader loader = new FXMLLoader();
@@ -109,25 +110,6 @@ public class loginController {
             }else invalidLoginLabel.setText("Invalid login!");
             } catch (IOException | SQLException e){
             e.printStackTrace();
-        }
-    }
-    public boolean isLogin(String DisplayName, String UserPassword) throws SQLException {
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        String sql = "SELECT * FROM UserClientData where Username = ? and Password = ?";
-        try{
-            ps = this.connection.prepareStatement(sql);
-            ps.setString(1,DisplayName);
-            ps.setString(2,UserPassword);
-            rs = ps.executeQuery();
-            if(rs.next()){
-                return true;
-            } return false;
-        } catch(SQLException e){
-            return false;
-        }finally {
-            ps.close();
-            rs.close();
         }
     }
 }

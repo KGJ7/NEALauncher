@@ -1,9 +1,0 @@
-.label{
-    -fx-text-fill: white;
-}
-#invalidLoginLabel{
-    -fx-text-fill: red;
-}
-#backgroundLabel{
-    -fx-background-color: #19225A;
-}
