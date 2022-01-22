@@ -156,29 +156,6 @@ public class registerController{
         }
     }
     public boolean checkForExistingUser() throws SQLException{
-//        PreparedStatement ps = null;
-//        ResultSet rs = null;
-//        String sql = "SELECT * FROM UserClientData WHERE DisplayName = ?";
-//
-//        try{
-//            Connection con = DBConnection.getConnection();
-//            assert con != null;
-//            ps = con.prepareStatement(sql);
-//            ps.setString(1, usernameTextField.getText());
-//
-//            rs = ps.executeQuery();
-//                if (rs.next()){
-//                    return true;
-//                } else return false;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            return false;
-//        } finally {
-//            assert ps != null;
-//            ps.close();
-//            assert rs != null;
-//            rs.close();
-//        }
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sql = "SELECT * FROM UserClientData where DisplayName = ?";
