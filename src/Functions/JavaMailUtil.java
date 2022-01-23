@@ -15,8 +15,8 @@ public class JavaMailUtil {
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.port", "587");
-        String myAccountEmail = "xxxxx@gmail.com";
-        String password = "xxxxxxxx";
+        String myAccountEmail = "neaglecqna@gmail.com";
+        String password = "hegdeatri";
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -30,7 +30,7 @@ public class JavaMailUtil {
 
 
     private static Message prepareMessage(Session session, String myAccountEmail, String subject, String body) {
-        String recipient = "";
+        String recipient = "neaglecqna@gmail.com";
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(myAccountEmail));

@@ -66,13 +66,12 @@ public class qnaController {
 
     public void sendQNA() throws MessagingException {
         if(checkFieldsEmpty()){
-            if(sendMail()){
+            sendMail();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Email sent!");
-                alert.setContentText("Your email has been sent to my inbox. T");
+                alert.setContentText("Your email has been sent to my inbox.");
                 alert.showAndWait().ifPresent((btnType) -> {
                 });
-            }
             // code redirection to previous page
         }else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -81,9 +80,6 @@ public class qnaController {
             alert.showAndWait().ifPresent((btnType) -> {
             });
         }
-
-
-
     }
 
     public boolean checkFieldsEmpty(){
