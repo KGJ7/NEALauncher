@@ -7,7 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="936.0" prefWidth="1664.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUIs.lobby.createLobbyController">
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.TitledPane?>
+<AnchorPane prefHeight="936.0" prefWidth="1664.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUIs.lobby.createLobbyController">
     <children>
         <Label fx:id="backgroundLabel" layoutX="102.0" layoutY="756.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
         <Button fx:id="createLobbyButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#openCreateLobbyTab" prefHeight="100.0" prefWidth="255.0" text="CREATE LOBBY" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -64,17 +66,36 @@
         <Separator layoutX="9.0" layoutY="160.0" orientation="VERTICAL" prefHeight="806.0" prefWidth="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="160.0" />
         <Separator layoutY="157.0" prefHeight="4.0" prefWidth="1258.0" AnchorPane.leftAnchor="0.0" />
         <Separator layoutX="5.0" layoutY="931.0" prefHeight="4.0" prefWidth="1258.0" AnchorPane.bottomAnchor="0.0" />
-        <ScrollPane fx:id="friendsListScrollPane" layoutX="1254.0" layoutY="211.0" prefHeight="697.0" prefWidth="400.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="1264.0" AnchorPane.rightAnchor="0.0" />
-      <Button fx:id="confirmGameModeButton" layoutX="534.0" layoutY="881.0" mnemonicParsing="false" onAction="#openLobbySearchingTab" prefHeight="51.0" prefWidth="200.0" text="Create Lobby" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="527.0" />
-      <Button fx:id="normalGameModeButton" layoutX="400.0" layoutY="541.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="200.0" text="Normal Game Mode" AnchorPane.leftAnchor="327.0">
+        <Accordion layoutX="1263.0" layoutY="211.0" prefHeight="725.0" prefWidth="400.0">
+            <panes>
+                <TitledPane animated="false" text="untitled 1">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                </TitledPane>
+                <TitledPane animated="false" text="untitled 2">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                </TitledPane>
+                <TitledPane animated="false" text="untitled 3">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                </TitledPane>
+            </panes>
+        </Accordion>
+      <Button fx:id="confirmGameModeButton" layoutX="534.0" layoutY="881.0" mnemonicParsing="false" onAction="#createLobby" prefHeight="51.0" prefWidth="200.0" text="Create Lobby" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="527.0" />
+      <Button fx:id="normalGameModeButton" layoutX="400.0" layoutY="541.0" mnemonicParsing="false" onAction="#normalGameModeSelected" prefHeight="51.0" prefWidth="200.0" text="Normal Game Mode" AnchorPane.leftAnchor="327.0">
          <font>
             <Font size="19.0" />
          </font>
       </Button>
-      <Button fx:id="practiceToolModeButton" layoutX="700.0" layoutY="541.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="200.0" text="Practice Tool" AnchorPane.leftAnchor="727.0">
+      <Button fx:id="practiceToolModeButton" layoutX="700.0" layoutY="541.0" mnemonicParsing="false" onAction="#practiceToolSelected" prefHeight="51.0" prefWidth="200.0" text="Practice Tool" AnchorPane.leftAnchor="727.0">
          <font>
             <Font size="19.0" />
          </font>
       </Button>
+      <Label layoutX="527.0" layoutY="868.0" text="Label" />
     </children>
 </AnchorPane>

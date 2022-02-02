@@ -1,5 +1,9 @@
 package GUIs.news;
 
+import DatabaseTools.DBConnection;
+import GUIs.preclient.loginController;
+import GUIs.preclient.loginModel;
+import GUIs.preclient.loginController.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +23,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class newsController {
     @FXML
@@ -53,18 +61,58 @@ public class newsController {
     private ImageView newsWallpaperIV;
 
 
-    public void initialize(){
+    public void initialize() throws SQLException {
         Image image = new Image("/Images/newsWallpaper.jpg");
         newsWallpaperIV = new ImageView(image);
         newsWallpaperIV.setFitHeight(776);
         newsWallpaperIV.setFitWidth(1258);
         newsWallpaperIV.setPreserveRatio(true);
         newsWallpaperLabel.setGraphic(newsWallpaperIV);
+        initializeUserMP();
+        initializeUserLevel();
     }
     @FXML
     public void openNewsLink(ActionEvent event) throws URISyntaxException, IOException {
-        System.out.println("Link clicked nice");
         Desktop.getDesktop().browse(new URI("https://www.youtube.com/watch?v=dx76YPgZviE&t=90s"));
+    }
+    @FXML
+    public void initializeUserMP()throws SQLException{
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT UserCurrency FROM UserClientData WHERE DisplayName = ?";
+        try{
+            Connection con = DBConnection.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1,loginController.currentUser);
+            rs = ps.executeQuery();
+            rs.getInt("UserCurrency");
+            displayCurrencyLabel.setText("MP:" + rs.toString());
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        finally {
+            ps.close();
+            rs.close();
+        }
+    }
+    @FXML
+    public void initializeUserLevel() throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT UserLevel FROM UserClientData WHERE DisplayName = ?";
+        try{
+            Connection con = DBConnection.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1,loginController.currentUser);
+            rs = ps.executeQuery();
+            rs.getInt("UserLevel");
+            displayUserLevelLabel.setText("Level:" + rs);
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            ps.close();
+            rs.close();
+        }
     }
 
     public void openNewsTab(){

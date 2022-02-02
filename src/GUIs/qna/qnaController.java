@@ -83,7 +83,6 @@ public class qnaController {
     }
 
     public boolean checkFieldsEmpty(){
-        // if empty then return true
         if (!QNABodyTextArea.getText().isEmpty()){
             if(!QNATypeComboBox.getSelectionModel().isEmpty()){
                 return true;

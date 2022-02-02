@@ -1,5 +1,6 @@
 package GUIs.preclient;
 
+import DatabaseTools.DBConnection;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -50,6 +51,9 @@ public class loginController {
     private Label backgroundLabel;
 
 
+    public static String currentUser;
+    public static String currentUserID;
+
     public void initialize(){
         if(this.LoginModel.isConnected()){
             confirmDBConLabel.setText("Database connection confirmed!");
@@ -96,6 +100,8 @@ public class loginController {
                invalidLoginLabel.setText("Please fill in all fields.");
             }
             else if(LoginModel.isLogin(this.usernameTextField.getText(), this.passwordField.getText())) {
+                currentUser = usernameTextField.getText();
+                getUserID();
                 Stage old = (Stage) loginButton.getScene().getWindow();
                 Stage stage = new Stage();
                 FXMLLoader loader = new FXMLLoader();
@@ -110,6 +116,26 @@ public class loginController {
             }else invalidLoginLabel.setText("Invalid login!");
             } catch (IOException | SQLException e){
             e.printStackTrace();
+        }
+    }
+    public void getUserID() throws SQLException{
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT UserID FROM UserClientData WHERE DisplayName = ?";
+        try{
+            Connection con = DBConnection.getConnection();
+            assert con != null;
+            ps = con.prepareStatement(sql);
+            ps.setString(1, currentUser);
+            rs = ps.executeQuery();
+            currentUserID = rs.getString("UserID");
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally{
+            assert ps != null;
+            ps.close();
+            assert rs != null;
+            rs.close();
         }
     }
 }

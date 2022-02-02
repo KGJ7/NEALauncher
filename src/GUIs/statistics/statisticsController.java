@@ -1,5 +1,9 @@
 package GUIs.statistics;
 
+import DatabaseTools.DBConnection;
+import GUIs.preclient.loginController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,6 +12,10 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class statisticsController {
     @FXML
@@ -40,6 +48,51 @@ public class statisticsController {
     private ComboBox statisticTypeComboBox;
     @FXML
     private TextField championSearchTextField;
+    public void initialize() throws SQLException {
+        initializeUserLevel();
+        initializeUserMP();
+        initializeComboBoxes();
+    }
+
+    @FXML
+    public void initializeUserMP()throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT UserCurrency FROM UserClientData WHERE DisplayName = ?";
+        try{
+            Connection con = DBConnection.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, loginController.currentUser);
+            rs = ps.executeQuery();
+            rs.getInt("UserCurrency");
+            displayCurrencyLabel.setText("MP:" + rs);
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        finally {
+            ps.close();
+            rs.close();
+        }
+    }
+    @FXML
+    public void initializeUserLevel() throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT UserLevel FROM UserClientData WHERE DisplayName = ?";
+        try{
+            Connection con = DBConnection.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1,loginController.currentUser);
+            rs = ps.executeQuery();
+            rs.getInt("UserLevel");
+            displayUserLevelLabel.setText("Level: " + rs);
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            ps.close();
+            rs.close();
+        }
+    }
 
 
     public void openNewsTab(){
@@ -160,5 +213,12 @@ public class statisticsController {
         } catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    public void initializeComboBoxes(){
+        ObservableList<String> timePeriodBoxOptions  = FXCollections.observableArrayList("Last 10 games", "Last 25 games", "History");
+        ObservableList<String> statTypePeriodBoxOptions = FXCollections.observableArrayList("Kills", "Deaths", "Assists", "Healing", "KDA");
+        timePeriodComboBox.getItems().addAll(timePeriodBoxOptions);
+        statisticTypeComboBox.getItems().addAll(statTypePeriodBoxOptions);
     }
 }

@@ -22,6 +22,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -137,21 +138,24 @@ public class registerController{
     }
 
     public boolean createNewUser(String username){
-        String sql = "INSERT INTO UserClientData(DisplayName, UserPassword, UserLevel, UserXP) VALUES (?, ?, ? ,?)";
+        String sql = "INSERT INTO UserClientData(UserID, DisplayName, UserPassword, UserLevel, UserXP) VALUES (?, ?, ?, ? ,?)";
         try{
+            Random random = new Random();
+            int userID = new Random().nextInt(899999)+100000;
             Connection con = DBConnection.getConnection();
             assert con != null;
             PreparedStatement ps = con.prepareStatement(sql);
             String hashedPassword = hashPassword();
-            ps.setString(1, username);
-            ps.setString(2, hashedPassword);
-            ps.setInt(3, 0);
+            ps.setInt(1, userID);
+            ps.setString(2, username);
+            ps.setString(3, hashedPassword);
             ps.setInt(4, 0);
+            ps.setInt(5, 0);
             ps.execute();
             con.close();
             return true;
         }catch(SQLException e){
-            System.err.println(e);
+            e.printStackTrace();
             return false;
         }
     }
