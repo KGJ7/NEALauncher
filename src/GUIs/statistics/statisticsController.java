@@ -54,6 +54,7 @@ public class statisticsController {
         initializeComboBoxes();
     }
 
+
     @FXML
     public void initializeUserMP()throws SQLException {
         PreparedStatement ps = null;
@@ -64,8 +65,8 @@ public class statisticsController {
             ps = con.prepareStatement(sql);
             ps.setString(1, loginController.currentUser);
             rs = ps.executeQuery();
-            rs.getInt("UserCurrency");
-            displayCurrencyLabel.setText("MP:" + rs);
+            int userCurrency = rs.getInt("UserCurrency");
+            displayCurrencyLabel.setText("MP:" + userCurrency);
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -84,8 +85,8 @@ public class statisticsController {
             ps = con.prepareStatement(sql);
             ps.setString(1,loginController.currentUser);
             rs = ps.executeQuery();
-            rs.getInt("UserLevel");
-            displayUserLevelLabel.setText("Level: " + rs);
+            int userLevel = rs.getInt("UserLevel");
+            displayUserLevelLabel.setText("Level: " + userLevel);
         } catch (SQLException e){
             e.printStackTrace();
         } finally {

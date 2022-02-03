@@ -75,18 +75,19 @@ public class newsController {
     public void openNewsLink(ActionEvent event) throws URISyntaxException, IOException {
         Desktop.getDesktop().browse(new URI("https://www.youtube.com/watch?v=dx76YPgZviE&t=90s"));
     }
+
     @FXML
-    public void initializeUserMP()throws SQLException{
+    public void initializeUserMP()throws SQLException {
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sql = "SELECT UserCurrency FROM UserClientData WHERE DisplayName = ?";
         try{
             Connection con = DBConnection.getConnection();
             ps = con.prepareStatement(sql);
-            ps.setString(1,loginController.currentUser);
+            ps.setString(1, loginController.currentUser);
             rs = ps.executeQuery();
-            rs.getInt("UserCurrency");
-            displayCurrencyLabel.setText("MP:" + rs.toString());
+            int userCurrency = rs.getInt("UserCurrency");
+            displayCurrencyLabel.setText("MP:" + userCurrency);
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -105,8 +106,8 @@ public class newsController {
             ps = con.prepareStatement(sql);
             ps.setString(1,loginController.currentUser);
             rs = ps.executeQuery();
-            rs.getInt("UserLevel");
-            displayUserLevelLabel.setText("Level:" + rs);
+            int userLevel = rs.getInt("UserLevel");
+            displayUserLevelLabel.setText("Level: " + userLevel);
         } catch (SQLException e){
             e.printStackTrace();
         } finally {
