@@ -2,6 +2,8 @@ package GUIs.shop;
 
 import DatabaseTools.DBConnection;
 import GUIs.preclient.loginController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -39,6 +41,16 @@ public class shopController {
     @FXML
     private Label friendsListLabel;
     @FXML
+    private Label fighterLabel;
+    @FXML
+    private Label tankLabel;
+    @FXML
+    private Label assassinLabel;
+    @FXML
+    private Label marksmanLabel;
+    @FXML
+    private Label mageLabel;
+    @FXML
     private ScrollPane friendsListScrollPane;
     @FXML
     private ComboBox championClassComboBox;
@@ -46,9 +58,21 @@ public class shopController {
     private TextField championSearchTextField;
     @FXML
     private CheckBox showOwnedCheckBox;
+    @FXML
+    private ContextMenu itemInteractionContextMenu;
+
+    private int champToBuy;
+
     public void initialize() throws SQLException {
         initializeUserLevel();
         initializeUserMP();
+        initializeComboBox();
+    }
+
+    @FXML
+    public void initializeComboBox(){
+        ObservableList<String> championClassComboBoxOptions = FXCollections.observableArrayList("Fighter", "Tank", "Assassin", "Marksman", "Mage");
+        championClassComboBox.getItems().addAll(championClassComboBoxOptions);
     }
 
     @FXML
@@ -91,6 +115,79 @@ public class shopController {
         }
     }
 
+    public void buyChampTransaction() throws SQLException {
+        if(buyChampCheck()){
+            checkChampDuplicate();
+        }
+    }
+    public void buyChamp1() throws SQLException {
+        champToBuy = 0;
+        buyChampTransaction();
+    }
+    public void buyChamp2() throws SQLException {
+        champToBuy = 1;
+        buyChampTransaction();
+    }
+    public void buyChamp3() throws SQLException {
+        champToBuy = 2;
+        buyChampTransaction();
+    }
+    public void buyChamp4() throws SQLException {
+        champToBuy = 3;
+        buyChampTransaction();
+    }
+    public void buyChamp5() throws SQLException {
+        champToBuy = 4;
+        buyChampTransaction();
+    }
+
+    public boolean buyChampCheck() throws SQLException{
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            String sql = "SELECT UserCurrency FROM UserClientData WHERE DisplayName = ?";
+            try{
+                Connection con = DBConnection.getConnection();
+                assert con != null;
+                ps = con.prepareStatement(sql);
+                ps.setString(1,loginController.currentUser);
+                rs = ps.executeQuery();
+                int userBalance = rs.getInt(1);
+                if (userBalance >= 100){
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (SQLException e){
+                e.printStackTrace();
+                return false;
+            } finally{
+                assert ps != null;
+                ps.close();
+                assert rs != null;
+                rs.close();
+            }
+        }
+        public boolean checkChampDuplicate() throws SQLException{
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            String sql ="SELECT * FROM UserChampionData WHERE UserID = ?";
+            try{
+                Connection con = DBConnection.getConnection();
+                assert con != null;
+                ps = con.prepareStatement(sql);
+                ps.setString(1,loginController.currentUserID);
+                rs = ps.executeQuery();
+                return rs.getBoolean(champToBuy);
+            } catch (SQLException e){
+                e.printStackTrace();
+                return false;
+            } finally{
+                assert ps != null;
+                ps.close();
+                assert rs != null;
+                rs.close();
+            }
+        }
     public void openNewsTab(){
         try{
             Stage old = (Stage) openNewsTabButton.getScene().getWindow();

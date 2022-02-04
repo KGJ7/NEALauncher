@@ -159,6 +159,28 @@ public class registerController{
             return false;
         }
     }
+    public boolean createNewChampData(int userID){
+        String sql = "INSERT INTO UserChampionData(UserID, Champ1, Champ2, Champ3, Champ4, Champ5) VALUES (?, ?, ? ,? , ?, ?)";
+        try{
+            Random random = new Random();
+            Connection con = DBConnection.getConnection();
+            assert con != null;
+            PreparedStatement ps = con.prepareStatement(sql);
+            String hashedPassword = hashPassword();
+            ps.setInt(1, userID);
+            ps.setBoolean(2, false);
+            ps.setBoolean(3, false);
+            ps.setBoolean(4, false);
+            ps.setBoolean(5, false);
+            ps.setBoolean(6, false);
+            ps.execute();
+            con.close();
+            return true;
+        }catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
     public boolean checkForExistingUser() throws SQLException{
         PreparedStatement ps = null;
         ResultSet rs = null;

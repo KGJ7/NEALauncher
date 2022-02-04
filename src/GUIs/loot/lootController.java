@@ -9,6 +9,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -52,25 +54,25 @@ public class lootController {
     @FXML
     private ContextMenu itemInteractionContextMenu;
 
+    private ImageView welcomeGiftIV;
+
     private String champRedeemToString;
 
     public void initialize() throws SQLException{
+        Image image = new Image("/Images/teemoFloating.png");
+        welcomeGiftIV = new ImageView(image);
+        welcomeGiftIV.setFitHeight(159);
+        welcomeGiftIV.setFitWidth(200);
+        welcomeGiftIV.setPreserveRatio(true);
+        welcomeGiftLabel.setGraphic(welcomeGiftIV);
         initializeUserLevel();
         initializeUserMP();
         initializeComboBox();
-        initializeContextMenu();
     }
     @FXML
     public void initializeComboBox(){
         ObservableList<String> championClassComboBoxOptions = FXCollections.observableArrayList("Fighter", "Tank", "Assassin", "Marksman", "Mage");
         championClassComboBox.getItems().addAll(championClassComboBoxOptions);
-    }
-    @FXML
-    public void initializeContextMenu(){
-        ContextMenu interactionContextMenu = new ContextMenu();
-        MenuItem redeemItem = new MenuItem("Redeem item");
-        MenuItem sellItem = new MenuItem("Sell item");
-        interactionContextMenu.getItems().addAll(redeemItem, sellItem);
     }
 
     public boolean redeemItemCheck() throws SQLException{
@@ -100,16 +102,59 @@ public class lootController {
         }
     }
     public void redeemItemTransaction() throws SQLException {
-        redeemItemCheck();
         if (redeemItemCheck()){
+            randomLootReward();
             while (checkChampDuplicate()){
                 randomLootReward();
                 checkChampDuplicate();
                 }
+            addChampRedeemed();
+            redeemItemUpdate();
+            successfulRedeemItemNotice();
+            } else failedRedeemItemNotice();
+        }
+
+        public void addChampRedeemed() throws SQLException {
+            PreparedStatement ps = null;
+            String sql = "UPDATE UserChampionData SET " + champRedeemToString +  " = 1 WHERE UserID = ?";
+            try{
+                Connection con = DBConnection.getConnection();
+                assert con != null;
+                ps = con.prepareStatement(sql);
+                ps.setString(1,loginController.currentUserID);
+                ps.executeUpdate();
+            } catch (SQLException e){
+                e.printStackTrace();
+            } finally{
+                assert ps != null;
+                ps.close();
             }
         }
 
-        public void redeemItemNotice(){
+        public void redeemItemUpdate() throws SQLException {
+            PreparedStatement ps = null;
+            String sql = "UPDATE UserClientData SET UserCurrency = UserCurrency - 50 WHERE DisplayName = ?";
+            try{
+                Connection con = DBConnection.getConnection();
+                assert con != null;
+                ps = con.prepareStatement(sql);
+                ps.setString(1,loginController.currentUser);
+                ps.executeUpdate();
+            } catch (SQLException e){
+                e.printStackTrace();
+            } finally{
+                assert ps != null;
+                ps.close();
+            }
+        }
+        public void failedRedeemItemNotice(){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed transaction!");
+            alert.setContentText("Transaction failed, not enough money.");
+            alert.showAndWait().ifPresent((btnType) -> {
+            });
+        }
+        public void successfulRedeemItemNotice(){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Successful transaction!");
             alert.setContentText("Transaction successful.");
@@ -136,16 +181,14 @@ public class lootController {
     public boolean checkChampDuplicate() throws SQLException{
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql ="SELECT " + champRedeemToString + " FROM UserChampionData WHERE UserID = ?";
+        String sql ="SELECT * FROM UserChampionData WHERE UserID = ?";
         try{
             Connection con = DBConnection.getConnection();
             assert con != null;
             ps = con.prepareStatement(sql);
             ps.setString(1,loginController.currentUserID);
             rs = ps.executeQuery();
-            if (rs.next()){
-                return true;
-            } else return false;
+             return rs.getBoolean(champRedeemToString);
         } catch (SQLException e){
             e.printStackTrace();
             return false;
@@ -172,6 +215,15 @@ public class lootController {
             assert ps != null;
             ps.close();
         }
+        sellItemNotice();
+    }
+
+    public void sellItemNotice(){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Successful transaction!");
+            alert.setContentText("Transaction successful.");
+            alert.showAndWait().ifPresent((btnType) -> {
+            });
     }
 
     @FXML
