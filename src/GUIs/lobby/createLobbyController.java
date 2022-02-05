@@ -46,6 +46,7 @@ public class createLobbyController {
     private Button confirmGameModeButton;
 
     private boolean gameModeSelected;
+    private boolean gameTypeSelected;
 
     public void initialize() throws SQLException {
         initializeUserLevel();
@@ -94,18 +95,20 @@ public class createLobbyController {
     }
 
     public void normalGameModeSelected(){
+        gameTypeSelected = true;
         gameModeSelected = false;
-
+        System.out.println(gameModeSelected);
         gameModeDisplayLabel.setText("Normal game mode selected");
     }
 
     public void practiceToolSelected(){
+        gameTypeSelected = true;
         gameModeSelected = true;
         gameModeDisplayLabel.setText("Practice tool selected");
     }
 
     public boolean lobbyTypeInput(){
-        if(!gameModeSelected){
+        if(!gameTypeSelected){
             return false;
         } else return true;
     }

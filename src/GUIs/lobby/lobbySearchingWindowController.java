@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -25,22 +26,41 @@ public class lobbySearchingWindowController {
     @FXML
     private Button openStoreTabButton;
     @FXML
-    private Button displayCurrencyLabel;
+    private Label displayCurrencyLabel;
     @FXML
-    private Button displayUserLevelLabel;
+    private Label displayUserLevelLabel;
+    @FXML
+    private Label userDisplayLabel;
+    @FXML
+    private Label queueTimerLabel;
+    @FXML
+    private Label testReasonLabel;
     @FXML
     private Button openInventoryTabButton;
     @FXML
     private Button openNewsTabButton;
     @FXML
     private Button openQnaTabButton;
+    @FXML
+    private Button queueButton;
+
+    private int currentUserLevel;
 
     public void initialize() throws SQLException {
         initializeUserLevel();
         initializeUserMP();
+        initializeUserLobby();
     }
 
 
+    @FXML
+    public void initializeUserLobby(){
+        userDisplayLabel.setText(loginController.currentUser + "\n Level " + currentUserLevel);
+    }
+
+    public void queueProcess(){
+
+    }
     @FXML
     public void initializeUserMP()throws SQLException {
         PreparedStatement ps = null;
@@ -61,6 +81,7 @@ public class lobbySearchingWindowController {
             rs.close();
         }
     }
+
     @FXML
     public void initializeUserLevel() throws SQLException {
         PreparedStatement ps = null;
@@ -72,6 +93,7 @@ public class lobbySearchingWindowController {
             ps.setString(1,loginController.currentUser);
             rs = ps.executeQuery();
             int userLevel = rs.getInt("UserLevel");
+            currentUserLevel = userLevel;
             displayUserLevelLabel.setText("Level: " + userLevel);
         } catch (SQLException e){
             e.printStackTrace();
