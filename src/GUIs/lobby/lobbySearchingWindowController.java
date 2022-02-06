@@ -45,6 +45,7 @@ public class lobbySearchingWindowController {
     private Button queueButton;
 
     private int currentUserLevel;
+    private boolean gameFound;
 
     public void initialize() throws SQLException {
         initializeUserLevel();
@@ -59,6 +60,12 @@ public class lobbySearchingWindowController {
     }
 
     public void queueProcess(){
+        gameFound = false;
+        while (gameFound == false){
+            queueTimer();
+        }
+    }
+    public void queueTimer(){
 
     }
     @FXML
