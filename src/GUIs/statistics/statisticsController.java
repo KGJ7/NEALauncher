@@ -41,6 +41,8 @@ public class statisticsController {
     @FXML
     private Label friendsListLabel;
     @FXML
+    private Label statisticsDisplayLabel;
+    @FXML
     private ScrollPane friendsListScrollPane;
     @FXML
     private ComboBox timePeriodComboBox;
@@ -48,6 +50,9 @@ public class statisticsController {
     private ComboBox statisticTypeComboBox;
     @FXML
     private TextField championSearchTextField;
+
+    private String champSearchInput;
+
     public void initialize() throws SQLException {
         initializeUserLevel();
         initializeUserMP();
@@ -92,6 +97,13 @@ public class statisticsController {
         } finally {
             ps.close();
             rs.close();
+        }
+    }
+    @FXML
+    public void displayStats(){
+        champSearchInput = championSearchTextField.getText();
+        if (champSearchInput !=null){
+
         }
     }
 
@@ -217,7 +229,7 @@ public class statisticsController {
     }
 
     public void initializeComboBoxes(){
-        ObservableList<String> timePeriodBoxOptions  = FXCollections.observableArrayList("Last 10 games", "Last 25 games", "History");
+        ObservableList<String> timePeriodBoxOptions  = FXCollections.observableArrayList("History", "Last 10 games", "Last 25 games");
         ObservableList<String> statTypePeriodBoxOptions = FXCollections.observableArrayList("Kills", "Deaths", "Assists", "Healing", "KDA");
         timePeriodComboBox.getItems().addAll(timePeriodBoxOptions);
         statisticTypeComboBox.getItems().addAll(statTypePeriodBoxOptions);

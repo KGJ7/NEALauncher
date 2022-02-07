@@ -57,6 +57,8 @@ public class lootController {
     private ImageView welcomeGiftIV;
 
     private String champRedeemToString;
+    private int hideOwnedChampCounter;
+    private int hideCB;
 
     public void initialize() throws SQLException{
         Image image = new Image("/Images/teemoFloating.png");
@@ -73,6 +75,34 @@ public class lootController {
     public void initializeComboBox(){
         ObservableList<String> championClassComboBoxOptions = FXCollections.observableArrayList("Fighter", "Tank", "Assassin", "Marksman", "Mage");
         championClassComboBox.getItems().addAll(championClassComboBoxOptions);
+    }
+    public void refresh(){
+        if ((championClassComboBox.getValue().toString()) != "Champion class"){
+            classComboBoxFilter();
+        }
+        if (championSearchTextField != null){
+            search();
+        }
+    }
+
+    public void search(){
+        String searchBoxContents = championSearchTextField.getText();
+        if (searchBoxContents == "Fighter"){
+            hideCB = 1;
+            hideItems();
+        } else if (searchBoxContents == "Tank"){
+            hideCB = 2;
+            hideItems();
+        } else if (searchBoxContents == "Assassin"){
+            hideCB = 3;
+            hideItems();
+        } else if (searchBoxContents == "Marksman"){
+            hideCB = 4;
+            hideItems();
+        } else if (searchBoxContents == "Mage"){
+            hideCB = 5;
+            hideItems();
+        }
     }
 
     public boolean redeemItemCheck() throws SQLException{
@@ -107,12 +137,13 @@ public class lootController {
             while (checkChampDuplicate()){
                 randomLootReward();
                 checkChampDuplicate();
-                }
+            }
             addChampRedeemed();
             redeemItemUpdate();
             successfulRedeemItemNotice();
-            } else failedRedeemItemNotice();
-        }
+            welcomeGiftLabel.setVisible(false);
+        } else failedRedeemItemNotice();
+    }
 
         public void addChampRedeemed() throws SQLException {
             PreparedStatement ps = null;
@@ -263,6 +294,58 @@ public class lootController {
         } finally {
             ps.close();
             rs.close();
+        }
+    }
+
+    @FXML
+    public void hideOwned() throws SQLException{
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM UserChampionData WHERE UserID = ?";
+        try {
+            Connection con = DBConnection.getConnection();
+            assert con != null;
+            ps = con.prepareStatement(sql);
+            ps.setString(1, loginController.currentUserID);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                for (hideOwnedChampCounter = 1; hideOwnedChampCounter < 6; hideOwnedChampCounter++) {
+                    if (rs.getBoolean("Champ" + hideOwnedChampCounter)) {
+                        hideItems();
+                    }
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            assert ps !=null;
+            ps.close();
+            assert rs!= null;
+            rs.close();
+        }
+    }
+
+    public void hideItems(){
+        welcomeGiftLabel.setVisible(false);
+    }
+
+    public void classComboBoxFilter(){
+        String selectedFilter = championClassComboBox.getValue().toString();
+        if (selectedFilter == "Fighter"){
+            hideCB = 1;
+            hideItems();
+        } else if (selectedFilter == "Tank"){
+            hideCB = 2;
+            hideItems();
+        } else if (selectedFilter == "Assassin"){
+            hideCB = 3;
+            hideItems();
+        } else if (selectedFilter == "Marksman"){
+            hideCB = 4;
+            hideItems();
+        } else if (selectedFilter == "Mage"){
+            hideCB = 5;
+            hideItems();
         }
     }
 

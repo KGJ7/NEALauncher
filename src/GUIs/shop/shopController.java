@@ -61,7 +61,9 @@ public class shopController {
     @FXML
     private ContextMenu itemInteractionContextMenu;
 
-    private int champToBuy;
+    private String champToBuy;
+    private int hideOwnedChampCounter;
+    private int hideCB;
 
     public void initialize() throws SQLException {
         initializeUserLevel();
@@ -115,29 +117,102 @@ public class shopController {
         }
     }
 
+    public void refresh(){
+        if ((championClassComboBox.getValue().toString()) != null){
+            classComboBoxFilter();
+        }
+        if (championSearchTextField != null){
+            search();
+        }
+    }
+
+    public void search(){
+        String searchBoxContents = championSearchTextField.getText();
+        if (searchBoxContents == "Fighter"){
+            hideCB = 1;
+            hideChamp();
+        } else if (searchBoxContents == "Tank"){
+            hideCB = 2;
+            hideChamp();
+        } else if (searchBoxContents == "Assassin"){
+            hideCB = 3;
+            hideChamp();
+        } else if (searchBoxContents == "Marksman"){
+            hideCB = 4;
+            hideChamp();
+        } else if (searchBoxContents == "Mage"){
+            hideCB = 5;
+            hideChamp();
+        }
+    }
+
     public void buyChampTransaction() throws SQLException {
         if(buyChampCheck()){
-            checkChampDuplicate();
+            if(checkChampDuplicate()){
+                duplicateChampNotice();
+            } else {
+                addChamp();
+                successfulTransactionNotice();
+            }
+        } else failedTransactionNotice();
+    }
+    public void duplicateChampNotice(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Failed transaction!");
+        alert.setContentText("You already own this champion, why would you buy them twice?");
+        alert.showAndWait().ifPresent((btnType) -> {
+        });
+    }
+    public void failedTransactionNotice(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Failed transaction!");
+        alert.setContentText("You don't have enough money to make this purchase, come back when you have over 100 MP!");
+        alert.showAndWait().ifPresent((btnType) -> {
+        });
+    }
+
+    public void successfulTransactionNotice(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Successful transaction!");
+        alert.setContentText("Transaction successful!");
+        alert.showAndWait().ifPresent((btnType) -> {
+        });
+    }
+
+    public void addChamp() throws SQLException {
+        PreparedStatement ps = null;
+        String sql = "UPDATE UserChampionData SET " + champToBuy + " = true WHERE UserID = ?";
+        try{
+            Connection con = DBConnection.getConnection();
+            assert con != null;
+            ps = con.prepareStatement(sql);
+            ps.setString(1,loginController.currentUserID);
+            ps.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally{
+            assert ps != null;
+            ps.close();
         }
     }
     public void buyChamp1() throws SQLException {
-        champToBuy = 0;
+        champToBuy = "Champ1";
         buyChampTransaction();
     }
     public void buyChamp2() throws SQLException {
-        champToBuy = 1;
+        champToBuy = "Champ2";
         buyChampTransaction();
     }
     public void buyChamp3() throws SQLException {
-        champToBuy = 2;
+        champToBuy = "Champ3";
         buyChampTransaction();
     }
     public void buyChamp4() throws SQLException {
-        champToBuy = 3;
+        champToBuy = "Champ4";
         buyChampTransaction();
     }
     public void buyChamp5() throws SQLException {
-        champToBuy = 4;
+        champToBuy = "Champ5";
         buyChampTransaction();
     }
 
@@ -188,6 +263,67 @@ public class shopController {
                 rs.close();
             }
         }
+    @FXML
+    public void hideOwned() throws SQLException{
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM UserChampionData WHERE UserID = ?";
+        try {
+            Connection con = DBConnection.getConnection();
+            assert con != null;
+            ps = con.prepareStatement(sql);
+            ps.setString(1, loginController.currentUserID);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                for (hideOwnedChampCounter = 1; hideOwnedChampCounter < 6; hideOwnedChampCounter++) {
+                    if (rs.getBoolean("Champ" + hideOwnedChampCounter)) {
+                        hideChamp();
+                    }
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            assert ps !=null;
+            ps.close();
+            assert rs!= null;
+            rs.close();
+        }
+    }
+
+    public void hideChamp(){
+        if(hideOwnedChampCounter == 1 || hideCB != 1){
+            fighterLabel.setVisible(false);
+        } else if (hideOwnedChampCounter == 2 || hideCB != 2){
+            tankLabel.setVisible(false);
+        }else if (hideOwnedChampCounter == 3 || hideCB != 3){
+            assassinLabel.setVisible(false);
+        }else if (hideOwnedChampCounter == 4 || hideCB != 4){
+            marksmanLabel.setVisible(false);
+        }else if (hideOwnedChampCounter == 5 || hideCB != 5){
+            mageLabel.setVisible(false);
+        }
+    }
+
+    public void classComboBoxFilter(){
+        String selectedFilter = championClassComboBox.getValue().toString();
+        if (selectedFilter == "Fighter"){
+            hideCB = 1;
+            hideChamp();
+        } else if (selectedFilter == "Tank"){
+            hideCB = 2;
+            hideChamp();
+        } else if (selectedFilter == "Assassin"){
+            hideCB = 3;
+            hideChamp();
+        } else if (selectedFilter == "Marksman"){
+            hideCB = 4;
+            hideChamp();
+        } else if (selectedFilter == "Mage"){
+            hideCB = 5;
+            hideChamp();
+        }
+    }
     public void openNewsTab(){
         try{
             Stage old = (Stage) openNewsTabButton.getScene().getWindow();
