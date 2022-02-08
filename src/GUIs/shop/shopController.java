@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class shopController {
     @FXML
@@ -32,6 +33,8 @@ public class shopController {
     private Button openNewsTabButton;
     @FXML
     private Button openQnaTabButton;
+    @FXML
+    private Button searchButton;
     @FXML
     private Label backgroundLabel;
     @FXML
@@ -117,33 +120,50 @@ public class shopController {
         }
     }
 
-    public void refresh(){
-        if ((championClassComboBox.getValue().toString()) != null){
-            classComboBoxFilter();
-        }
+    public boolean searchFieldCheck(){
         if (championSearchTextField != null){
-            search();
+            return true;
         }
+        else return false;
     }
 
-    public void search(){
+    public void search() {
+        fighterLabel.setVisible(true);
+        tankLabel.setVisible(true);
+        assassinLabel.setVisible(true);
+        marksmanLabel.setVisible(true);
+        mageLabel.setVisible(true);
         String searchBoxContents = championSearchTextField.getText();
-        if (searchBoxContents == "Fighter"){
-            hideCB = 1;
-            hideChamp();
-        } else if (searchBoxContents == "Tank"){
-            hideCB = 2;
-            hideChamp();
-        } else if (searchBoxContents == "Assassin"){
-            hideCB = 3;
-            hideChamp();
-        } else if (searchBoxContents == "Marksman"){
-            hideCB = 4;
-            hideChamp();
-        } else if (searchBoxContents == "Mage"){
-            hideCB = 5;
-            hideChamp();
+        String comboBoxContents = championClassComboBox.getValue().toString();
+        if (searchFieldCheck()) {
+            if (Objects.equals(searchBoxContents, "Fighter")) {
+                hideCB = 1;
+                hideChamp();
+            } else if (Objects.equals(searchBoxContents, "Tank")) {
+                hideCB = 2;
+                hideChamp();
+            } else if (Objects.equals(searchBoxContents, "Assassin")) {
+                hideCB = 3;
+                hideChamp();
+            } else if (Objects.equals(searchBoxContents,"Marksman")){
+                hideCB = 4;
+                hideChamp();
+            } else if (Objects.equals(searchBoxContents,"Mage")) {
+                hideCB = 5;
+                hideChamp();
+            }
+        } else if (comboBoxFieldCheck()){
+            System.out.println(comboBoxContents);
+            classComboBoxFilter();
         }
+        System.out.println(hideCB);
+        System.out.println(searchBoxContents);
+    }
+
+    public boolean comboBoxFieldCheck(){
+        if (championClassComboBox.getValue().toString() != null){
+            return true;
+        } else return false;
     }
 
     public void buyChampTransaction() throws SQLException {
@@ -294,19 +314,20 @@ public class shopController {
     public void hideChamp(){
         if(hideOwnedChampCounter == 1 || hideCB != 1){
             fighterLabel.setVisible(false);
-        } else if (hideOwnedChampCounter == 2 || hideCB != 2){
+        } if (hideOwnedChampCounter == 2 || hideCB != 2){
             tankLabel.setVisible(false);
-        }else if (hideOwnedChampCounter == 3 || hideCB != 3){
+        } if (hideOwnedChampCounter == 3 || hideCB != 3){
             assassinLabel.setVisible(false);
-        }else if (hideOwnedChampCounter == 4 || hideCB != 4){
+        } if (hideOwnedChampCounter == 4 || hideCB != 4){
             marksmanLabel.setVisible(false);
-        }else if (hideOwnedChampCounter == 5 || hideCB != 5){
+        } if (hideOwnedChampCounter == 5 || hideCB != 5){
             mageLabel.setVisible(false);
         }
     }
 
     public void classComboBoxFilter(){
         String selectedFilter = championClassComboBox.getValue().toString();
+        System.out.println(selectedFilter);
         if (selectedFilter == "Fighter"){
             hideCB = 1;
             hideChamp();
