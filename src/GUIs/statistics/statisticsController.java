@@ -33,6 +33,8 @@ public class statisticsController {
     @FXML
     private Button openQnaTabButton;
     @FXML
+    private Button searchButton;
+    @FXML
     private Label backgroundLabel;
     @FXML
     private Label displayCurrencyLabel;
@@ -51,7 +53,8 @@ public class statisticsController {
     @FXML
     private TextField championSearchTextField;
 
-    private String champSearchInput;
+    private String statTypeInput;
+    private String statTypeQuery;
 
     public void initialize() throws SQLException {
         initializeUserLevel();
@@ -100,13 +103,53 @@ public class statisticsController {
         }
     }
     @FXML
-    public void displayStats(){
-        champSearchInput = championSearchTextField.getText();
-        if (champSearchInput !=null){
-
+    public void displayStats() throws SQLException {
+        statTypeInput = statisticTypeComboBox.getItems().toString();
+        if (statTypeInput.isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Empty search criteria!");
+            alert.setContentText("Please enter a stat type to display.");
+            alert.showAndWait().ifPresent((btnType) -> {
+            });
+        }else {
+            getStats();
         }
     }
 
+    public void getStats() throws SQLException {
+        if (statTypeInput == "Kills"){
+            statTypeQuery = "Kills";
+            statQuery();
+        } else if (statTypeInput == "Deaths"){
+            statTypeQuery = "Deaths";
+            statQuery();
+        } else if (statTypeInput == "Assists"){
+            statTypeQuery = "Assists";
+            statQuery();
+        } else if (statTypeInput == "Healing"){
+            statTypeQuery = "Healing";
+            statQuery();
+        } else if (statTypeInput == "KDA"){
+            statTypeQuery = "KDA";
+            statQuery();
+        } else System.out.println("?");
+    }
+
+    public void statQuery() throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT Most" + statTypeQuery + ", Average" + statTypeQuery + ", Total" + statTypeQuery +" FROM UserGameStatistics WHERE UserID = ?";
+        try{
+            Connection con = DBConnection.getConnection();
+            ps = con.prepareStatement(sql);
+
+        } catch (SQLException e ){
+            e.printStackTrace();
+        } finally{
+            ps.close();
+            rs.close();
+        }
+    }
 
     public void openNewsTab(){
         try{
