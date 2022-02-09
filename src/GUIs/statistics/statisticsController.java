@@ -131,24 +131,46 @@ public class statisticsController {
             statQuery();
         } else if (statTypeInput == "KDA"){
             statTypeQuery = "KDA";
-            statQuery();
+            statQueryKDA();
         } else System.out.println("?");
     }
 
-    public void statQuery() throws SQLException {
+    public String statQuery() throws SQLException {
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sql = "SELECT Most" + statTypeQuery + ", Average" + statTypeQuery + ", Total" + statTypeQuery +" FROM UserGameStatistics WHERE UserID = ?";
         try{
             Connection con = DBConnection.getConnection();
             ps = con.prepareStatement(sql);
-
+            ps.setString(1, loginController.currentUserID);
+            rs = ps.executeQuery();
+            return (rs.toString());
         } catch (SQLException e ){
             e.printStackTrace();
+            return null;
         } finally{
             ps.close();
             rs.close();
         }
+    }
+    public String statQueryKDA() throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT KDA FROM UserGameStatistics WHERE UserID = ?";
+        try{
+            Connection con = DBConnection.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, loginController.currentUserID);
+            rs = ps.executeQuery();
+            return (rs.toString());
+        } catch (SQLException e ){
+            e.printStackTrace();
+            return null;
+        } finally{
+            ps.close();
+            rs.close();
+        }
+
     }
 
     public void openNewsTab(){
