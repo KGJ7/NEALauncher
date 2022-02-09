@@ -67,6 +67,7 @@ public class shopController {
     private String champToBuy;
     private int hideOwnedChampCounter;
     private int hideCB;
+    private boolean checkBoxPreviouslyChecked;
 
     public void initialize() throws SQLException {
         initializeUserLevel();
@@ -75,44 +76,24 @@ public class shopController {
     }
 
     @FXML
-    public void initializeComboBox(){
+    public void initializeComboBox() {
         ObservableList<String> championClassComboBoxOptions = FXCollections.observableArrayList("Fighter", "Tank", "Assassin", "Marksman", "Mage");
         championClassComboBox.getItems().addAll(championClassComboBoxOptions);
     }
 
     @FXML
-    public void initializeUserMP()throws SQLException {
+    public void initializeUserMP() throws SQLException {
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sql = "SELECT UserCurrency FROM UserClientData WHERE DisplayName = ?";
-        try{
+        try {
             Connection con = DBConnection.getConnection();
             ps = con.prepareStatement(sql);
             ps.setString(1, loginController.currentUser);
             rs = ps.executeQuery();
             int userCurrency = rs.getInt("UserCurrency");
             displayCurrencyLabel.setText("MP:" + userCurrency);
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        finally {
-            ps.close();
-            rs.close();
-        }
-    }
-    @FXML
-    public void initializeUserLevel() throws SQLException {
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        String sql = "SELECT UserLevel FROM UserClientData WHERE DisplayName = ?";
-        try{
-            Connection con = DBConnection.getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setString(1,loginController.currentUser);
-            rs = ps.executeQuery();
-            int userLevel = rs.getInt("UserLevel");
-            displayUserLevelLabel.setText("Level: " + userLevel);
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             ps.close();
@@ -120,11 +101,33 @@ public class shopController {
         }
     }
 
-    public boolean searchFieldCheck(){
-        if (championSearchTextField != null){
-            return true;
+    @FXML
+    public void initializeUserLevel() throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT UserLevel FROM UserClientData WHERE DisplayName = ?";
+        try {
+            Connection con = DBConnection.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, loginController.currentUser);
+            rs = ps.executeQuery();
+            int userLevel = rs.getInt("UserLevel");
+            displayUserLevelLabel.setText("Level: " + userLevel);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ps.close();
+            rs.close();
         }
-        else return false;
+    }
+
+    public boolean searchFieldCheck() {
+        if (championSearchTextField.getText().isEmpty()) {
+            System.out.println("false");
+            return false;
+        } else
+            System.out.println("true");
+        return true;
     }
 
     public void search() {
@@ -134,7 +137,7 @@ public class shopController {
         marksmanLabel.setVisible(true);
         mageLabel.setVisible(true);
         String searchBoxContents = championSearchTextField.getText();
-        String comboBoxContents = championClassComboBox.getValue().toString();
+        String comboBoxContents = (String) championClassComboBox.getValue();
         if (searchFieldCheck()) {
             if (Objects.equals(searchBoxContents, "Fighter")) {
                 hideCB = 1;
@@ -145,30 +148,29 @@ public class shopController {
             } else if (Objects.equals(searchBoxContents, "Assassin")) {
                 hideCB = 3;
                 hideChamp();
-            } else if (Objects.equals(searchBoxContents,"Marksman")){
+            } else if (Objects.equals(searchBoxContents, "Marksman")) {
                 hideCB = 4;
                 hideChamp();
-            } else if (Objects.equals(searchBoxContents,"Mage")) {
+            } else if (Objects.equals(searchBoxContents, "Mage")) {
                 hideCB = 5;
                 hideChamp();
+            } else {
+                System.out.println("Searchbox empty");
             }
-        } else if (comboBoxFieldCheck()){
-            System.out.println(comboBoxContents);
+        } else if (comboBoxFieldCheck()) {
             classComboBoxFilter();
         }
-        System.out.println(hideCB);
-        System.out.println(searchBoxContents);
     }
 
-    public boolean comboBoxFieldCheck(){
-        if (championClassComboBox.getValue().toString() != null){
+    public boolean comboBoxFieldCheck() {
+        if (championClassComboBox.getValue().toString() != null) {
             return true;
         } else return false;
     }
 
     public void buyChampTransaction() throws SQLException {
-        if(buyChampCheck()){
-            if(checkChampDuplicate()){
+        if (buyChampCheck()) {
+            if (checkChampDuplicate()) {
                 duplicateChampNotice();
             } else {
                 addChamp();
@@ -176,14 +178,16 @@ public class shopController {
             }
         } else failedTransactionNotice();
     }
-    public void duplicateChampNotice(){
+
+    public void duplicateChampNotice() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Failed transaction!");
         alert.setContentText("You already own this champion, why would you buy them twice?");
         alert.showAndWait().ifPresent((btnType) -> {
         });
     }
-    public void failedTransactionNotice(){
+
+    public void failedTransactionNotice() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Failed transaction!");
         alert.setContentText("You don't have enough money to make this purchase, come back when you have over 100 MP!");
@@ -191,7 +195,7 @@ public class shopController {
         });
     }
 
-    public void successfulTransactionNotice(){
+    public void successfulTransactionNotice() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Successful transaction!");
         alert.setContentText("Transaction successful!");
@@ -202,87 +206,107 @@ public class shopController {
     public void addChamp() throws SQLException {
         PreparedStatement ps = null;
         String sql = "UPDATE UserChampionData SET " + champToBuy + " = true WHERE UserID = ?";
-        try{
+        try {
             Connection con = DBConnection.getConnection();
             assert con != null;
             ps = con.prepareStatement(sql);
-            ps.setString(1,loginController.currentUserID);
+            ps.setString(1, loginController.currentUserID);
             ps.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally{
+        } finally {
             assert ps != null;
             ps.close();
         }
     }
+
     public void buyChamp1() throws SQLException {
         champToBuy = "Champ1";
         buyChampTransaction();
     }
+
     public void buyChamp2() throws SQLException {
         champToBuy = "Champ2";
         buyChampTransaction();
     }
+
     public void buyChamp3() throws SQLException {
         champToBuy = "Champ3";
         buyChampTransaction();
     }
+
     public void buyChamp4() throws SQLException {
         champToBuy = "Champ4";
         buyChampTransaction();
     }
+
     public void buyChamp5() throws SQLException {
         champToBuy = "Champ5";
         buyChampTransaction();
     }
 
-    public boolean buyChampCheck() throws SQLException{
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-            String sql = "SELECT UserCurrency FROM UserClientData WHERE DisplayName = ?";
-            try{
-                Connection con = DBConnection.getConnection();
-                assert con != null;
-                ps = con.prepareStatement(sql);
-                ps.setString(1,loginController.currentUser);
-                rs = ps.executeQuery();
-                int userBalance = rs.getInt(1);
-                if (userBalance >= 100){
-                    return true;
-                } else {
-                    return false;
-                }
-            } catch (SQLException e){
-                e.printStackTrace();
+    public boolean buyChampCheck() throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT UserCurrency FROM UserClientData WHERE DisplayName = ?";
+        try {
+            Connection con = DBConnection.getConnection();
+            assert con != null;
+            ps = con.prepareStatement(sql);
+            ps.setString(1, loginController.currentUser);
+            rs = ps.executeQuery();
+            int userBalance = rs.getInt(1);
+            if (userBalance >= 100) {
+                return true;
+            } else {
                 return false;
-            } finally{
-                assert ps != null;
-                ps.close();
-                assert rs != null;
-                rs.close();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            assert ps != null;
+            ps.close();
+            assert rs != null;
+            rs.close();
         }
-        public boolean checkChampDuplicate() throws SQLException{
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-            String sql ="SELECT * FROM UserChampionData WHERE UserID = ?";
-            try{
-                Connection con = DBConnection.getConnection();
-                assert con != null;
-                ps = con.prepareStatement(sql);
-                ps.setString(1,loginController.currentUserID);
-                rs = ps.executeQuery();
-                return rs.getBoolean(champToBuy);
-            } catch (SQLException e){
-                e.printStackTrace();
-                return false;
-            } finally{
-                assert ps != null;
-                ps.close();
-                assert rs != null;
-                rs.close();
-            }
+    }
+
+    public boolean checkChampDuplicate() throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM UserChampionData WHERE UserID = ?";
+        try {
+            Connection con = DBConnection.getConnection();
+            assert con != null;
+            ps = con.prepareStatement(sql);
+            ps.setString(1, loginController.currentUserID);
+            rs = ps.executeQuery();
+            return rs.getBoolean(champToBuy);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            assert ps != null;
+            ps.close();
+            assert rs != null;
+            rs.close();
         }
+    }
+
+    @FXML
+    public void choiceBoxActions() throws SQLException {
+        if(showOwnedCheckBox.isSelected()){
+            hideOwned();
+        } else if (!showOwnedCheckBox.isSelected()){
+            fighterLabel.setVisible(true);
+            tankLabel.setVisible(true);
+            assassinLabel.setVisible(true);
+            marksmanLabel.setVisible(true);
+            mageLabel.setVisible(true);
+        }
+    }
+
     @FXML
     public void hideOwned() throws SQLException{
         PreparedStatement ps = null;

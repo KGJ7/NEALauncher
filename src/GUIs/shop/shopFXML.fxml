@@ -91,7 +91,7 @@
         </Accordion>
         <ComboBox fx:id="championClassComboBox" layoutX="5.0" layoutY="211.0" prefHeight="60.0" prefWidth="200.0" promptText="Champion class" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="210.0" />
         <TextField fx:id="championSearchTextField" layoutX="5.0" layoutY="310.0" prefHeight="60.0" prefWidth="200.0" promptText="Search box" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="310.0" />
-        <CheckBox fx:id="showOwnedCheckBox" layoutX="5.0" layoutY="399.0" mnemonicParsing="false" onAction="#hideOwned" prefHeight="40.0" prefWidth="200.0" text="Hide owned?" underline="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="410.0" />
+        <CheckBox fx:id="showOwnedCheckBox" layoutX="5.0" layoutY="399.0" mnemonicParsing="false" onAction="#choiceBoxActions" prefHeight="40.0" prefWidth="200.0" text="Hide owned?" underline="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="410.0" />
       <Label fx:id="fighterLabel" layoutX="200.0" layoutY="210.0" prefHeight="159.0" prefWidth="200.0" text="FIGHTER" textAlignment="CENTER">
          <font>
             <Font size="35.0" />

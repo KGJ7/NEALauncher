@@ -298,6 +298,14 @@ public class lootController {
     }
 
     @FXML
+    public void choiceBoxActions() throws SQLException {
+        if(showOwnedCheckBox.isSelected()){
+            welcomeGiftLabel.setVisible(true);
+        } else if (!showOwnedCheckBox.isSelected()){
+            hideOwned();
+        }
+    }
+    @FXML
     public void hideOwned() throws SQLException{
         PreparedStatement ps = null;
         ResultSet rs = null;
