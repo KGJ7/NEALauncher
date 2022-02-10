@@ -56,6 +56,7 @@ public class inventoryController {
     private TextField inventorySearchTextField;
     @FXML
     private CheckBox showUnownedCheckBox;
+    private int hideOwnedChampCounter;
     public void initialize() throws SQLException {
         initializeUserLevel();
         initializeUserMP();
@@ -106,6 +107,46 @@ public class inventoryController {
         } finally {
             ps.close();
             rs.close();
+        }
+    }
+    @FXML
+    public void hideOwned() throws SQLException{
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM UserChampionData WHERE UserID = ?";
+        try {
+            Connection con = DBConnection.getConnection();
+            assert con != null;
+            ps = con.prepareStatement(sql);
+            ps.setString(1, loginController.currentUserID);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                for (hideOwnedChampCounter = 1; hideOwnedChampCounter < 6; hideOwnedChampCounter++) {
+                    if (rs.getBoolean("Champ" + hideOwnedChampCounter)) {
+                        hideItems();
+                    }
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            assert ps !=null;
+            ps.close();
+            assert rs!= null;
+            rs.close();
+        }
+    }
+    public void hideItems(){
+        if(hideOwnedChampCounter == 1){
+            fighterLabel.setVisible(false);
+        } if (hideOwnedChampCounter == 2 ){
+            tankLabel.setVisible(false);
+        } if (hideOwnedChampCounter == 3){
+            assassinLabel.setVisible(false);
+        } if (hideOwnedChampCounter == 4 ){
+            marksmanLabel.setVisible(false);
+        } if (hideOwnedChampCounter == 5 ){
+            mageLabel.setVisible(false);
         }
     }
 

@@ -6,15 +6,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.concurrent.TimeUnit;
 
 public class lobbySearchingWindowController {
     @FXML
@@ -45,7 +44,7 @@ public class lobbySearchingWindowController {
     private Button queueButton;
 
     private int currentUserLevel;
-    private boolean gameFound;
+    private int timerElapsed;
 
     public void initialize() throws SQLException {
         initializeUserLevel();
@@ -59,14 +58,47 @@ public class lobbySearchingWindowController {
         userDisplayLabel.setText(loginController.currentUser + "\n Level " + currentUserLevel);
     }
 
-    public void queueProcess(){
-        gameFound = false;
-        while (gameFound == false){
-            queueTimer();
+    public void queueProcess() {
+        queueTimer();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Game found!");
+        alert.setContentText("Game found!");
+        alert.showAndWait().ifPresent((btnType) -> {
+        });
+        openPlaceHolder();
+
+    }
+    @FXML
+    public void openPlaceHolder(){
+        try{
+            Stage old = (Stage) queueButton.getScene().getWindow();
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            Parent root = loader.load(getClass().getResource("/GUIs/placeholderGame/placeholderFXML.fxml").openStream());
+            Scene scene = new Scene(root, 1664, 936);
+            scene.getStylesheets().add(getClass().getResource("/Stylesheets/News.css").toExternalForm());
+            stage.setScene(scene);
+            stage.setTitle("Game");
+            stage.setResizable(false);
+            old.close();
+            stage.show();
+        } catch (IOException e){
+            e.printStackTrace();
         }
     }
-    public void queueTimer(){
 
+    public void queueTimer(){
+        long startTime = System.currentTimeMillis();
+        long elapsedTime = 0;
+        while (elapsedTime < 1000) {
+            long stopTime = System.currentTimeMillis();
+            elapsedTime = stopTime - startTime;
+            timerElapsed = ((int) elapsedTime / 1000);
+            setTimer();
+        }
+    }
+    public void setTimer(){
+        queueTimerLabel.setText("Queue timer:" + timerElapsed);
     }
     @FXML
     public void initializeUserMP()throws SQLException {
