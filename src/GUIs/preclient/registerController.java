@@ -209,15 +209,12 @@ public class registerController{
                         if(checkPasswordMatch()){
                             if(checkForExistingUser()){
                                 if(createNewUser(usernameTextField.getText())) {
-                                    System.out.println("user created yay");
                                     }
                             }else errorLabel.setText("Username already taken!");
                         }else errorLabel.setText("Passwords don't match!");
                     }else errorLabel.setText("Password does not meet security requirements!");
                 }else errorLabel.setText("Invalid email address!");
             } else errorLabel.setText("Please fill in all fields!");
-
-
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }

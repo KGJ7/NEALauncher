@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class statisticsController {
     @FXML
@@ -108,7 +109,7 @@ public class statisticsController {
     }
     @FXML
     public void displayStats() throws SQLException {
-        statTypeInput = statisticTypeComboBox.getItems().toString();
+        statTypeInput = statisticTypeComboBox.getValue().toString();
         if (statTypeInput.isEmpty()){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Empty search criteria!");
@@ -120,39 +121,43 @@ public class statisticsController {
         }
     }
 
+    @FXML
     public void getStats() throws SQLException {
-        if (statTypeInput == "Kills"){
+        if (statisticTypeComboBox.getValue()=="Kills"){
             statTypeQuery = "Kills";
             statQuery();
             displayStatLabel();
-        } else if (statTypeInput == "Deaths"){
+        } else if (statisticTypeComboBox.getValue()=="Deaths"){
             statTypeQuery = "Deaths";
             statQuery();
             displayStatLabel();
-        } else if (statTypeInput == "Assists"){
+        } else if (statisticTypeComboBox.getValue()=="Assists"){
             statTypeQuery = "Assists";
             statQuery();
             displayStatLabel();
-        } else if (statTypeInput == "Healing"){
+        } else if (statisticTypeComboBox.getValue()== "Healing"){
             statTypeQuery = "Healing";
             statQuery();
             displayStatLabel();
-        } else if (statTypeInput == "KDA"){
+        } else if (statisticTypeComboBox.getValue()=="KDA"){
             statTypeQuery = "KDA";
             statQueryKDA();
             displayStatLabel();
-        } else System.out.println("?");
+        } else
+            System.out.println(statisticTypeComboBox.getValue());
+            System.out.println("?");
     }
+    @FXML
     public void displayStatLabel() throws SQLException {
-        if (statTypeQuery == "KDA"){
+        if (Objects.equals(statTypeQuery, "KDA")){
             statisticsDisplayLabel.setText(statQueryKDA());
-        } else if (statTypeQuery == "Kills"){
+        } else if (Objects.equals(statTypeQuery, "Kills")){
             statisticsDisplayLabel.setText("Most: " + statMost + "\n Average: " + statAverage + "\n Total:" + statTotal);
-        } else if (statTypeQuery == "Deaths"){
+        } else if (Objects.equals(statTypeQuery, "Deaths")){
             statisticsDisplayLabel.setText("Most: " + statMost + "\n Average: " + statAverage + "\n Total:" + statTotal);
-        } else if (statTypeQuery == "Assists"){
+        } else if (Objects.equals(statTypeQuery, "Assists")){
             statisticsDisplayLabel.setText("Most: " + statMost + "\n Average: " + statAverage + "\n Total:" + statTotal);
-        } else if (statTypeQuery == "Healing "){
+        } else if (Objects.equals(statTypeQuery, "Healing")){
             statisticsDisplayLabel.setText("Most: " + statMost + "\n Average: " + statAverage + "\n Total:" + statTotal);
         } else System.out.println("display stat doesn't work");
     }
