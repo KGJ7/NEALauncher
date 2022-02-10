@@ -37,6 +37,16 @@ public class inventoryController {
     @FXML
     private Label displayUserLevelLabel;
     @FXML
+    private Label fighterLabel;
+    @FXML
+    private Label tankLabel;
+    @FXML
+    private Label assassinLabel;
+    @FXML
+    private Label marksmanLabel;
+    @FXML
+    private Label mageLabel;
+    @FXML
     private Label friendsListLabel;
     @FXML
     private Accordion friendsListAccordion;

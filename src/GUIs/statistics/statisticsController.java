@@ -55,6 +55,10 @@ public class statisticsController {
 
     private String statTypeInput;
     private String statTypeQuery;
+    private String statMost;
+    private String statAverage;
+    private String statTotal;
+
 
     public void initialize() throws SQLException {
         initializeUserLevel();
@@ -120,37 +124,57 @@ public class statisticsController {
         if (statTypeInput == "Kills"){
             statTypeQuery = "Kills";
             statQuery();
+            displayStatLabel();
         } else if (statTypeInput == "Deaths"){
             statTypeQuery = "Deaths";
             statQuery();
+            displayStatLabel();
         } else if (statTypeInput == "Assists"){
             statTypeQuery = "Assists";
             statQuery();
+            displayStatLabel();
         } else if (statTypeInput == "Healing"){
             statTypeQuery = "Healing";
             statQuery();
+            displayStatLabel();
         } else if (statTypeInput == "KDA"){
             statTypeQuery = "KDA";
             statQueryKDA();
+            displayStatLabel();
         } else System.out.println("?");
     }
+    public void displayStatLabel() throws SQLException {
+        if (statTypeQuery == "KDA"){
+            statisticsDisplayLabel.setText(statQueryKDA());
+        } else if (statTypeQuery == "Kills"){
+            statisticsDisplayLabel.setText("Most: " + statMost + "\n Average: " + statAverage + "\n Total:" + statTotal);
+        } else if (statTypeQuery == "Deaths"){
+            statisticsDisplayLabel.setText("Most: " + statMost + "\n Average: " + statAverage + "\n Total:" + statTotal);
+        } else if (statTypeQuery == "Assists"){
+            statisticsDisplayLabel.setText("Most: " + statMost + "\n Average: " + statAverage + "\n Total:" + statTotal);
+        } else if (statTypeQuery == "Healing "){
+            statisticsDisplayLabel.setText("Most: " + statMost + "\n Average: " + statAverage + "\n Total:" + statTotal);
+        } else System.out.println("display stat doesn't work");
+    }
 
-    public String statQuery() throws SQLException {
+    public void statQuery() throws SQLException {
         PreparedStatement ps = null;
-        ResultSet rs = null;
         String sql = "SELECT Most" + statTypeQuery + ", Average" + statTypeQuery + ", Total" + statTypeQuery +" FROM UserGameStatistics WHERE UserID = ?";
         try{
             Connection con = DBConnection.getConnection();
+            assert con != null;
             ps = con.prepareStatement(sql);
             ps.setString(1, loginController.currentUserID);
-            rs = ps.executeQuery();
-            return (rs.toString());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                statMost = rs.getString("Most" + statTypeQuery);
+                statAverage = rs.getString("Average" + statTypeQuery);
+                statTotal = rs.getString("Total" + statTypeQuery);
+            }
         } catch (SQLException e ){
             e.printStackTrace();
-            return null;
         } finally{
             ps.close();
-            rs.close();
         }
     }
     public String statQueryKDA() throws SQLException {
